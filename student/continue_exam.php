@@ -95,16 +95,22 @@ include '../includes/header.php';
 
 <div class="container py-4">
     <!-- Timer Display -->
-    <div class="d-flex align-items-center mb-3">
-        <div class="progress flex-grow-1 me-3" style="height: 20px;">
-            <div class="progress-bar" role="progressbar" 
-                 style="width: <?php echo ($current_num / $total_questions) * 100; ?>%">
-                Question <?php echo $current_num; ?> of <?php echo $total_questions; ?>
+    <div class="d-flex align-items-start mb-4">
+        <div class="exam-progress flex-grow-1">
+            <h5 class="mb-2">Progress</h5>
+            <div class="progress">
+                <div class="progress-bar bg-primary" role="progressbar" 
+                     style="width: <?php echo ($current_num / $total_questions) * 100; ?>%">
+                    Question <?php echo $current_num; ?> of <?php echo $total_questions; ?>
+                </div>
             </div>
         </div>
-        <div id="timer" class="badge bg-primary p-2" 
-             data-remaining="<?php echo $remaining_seconds; ?>">
-            Time Remaining: <span id="timeDisplay">Calculating...</span>
+        <div class="exam-timer ms-3">
+            <h5 class="mb-2 text-center">Time Remaining</h5>
+            <div id="timer" class="badge bg-warning d-flex align-items-center justify-content-center" data-remaining="<?php echo $remaining_seconds; ?>" style="height: 50px; width: 250px;">
+            <i class="fas fa-clock"></i>
+            <span id="timeDisplay" style="color: #000;"></span>
+            </div>
         </div>
     </div>
 
@@ -268,6 +274,8 @@ include '../includes/header.php';
 document.addEventListener('DOMContentLoaded', function() {
     // Single declarations of all elements
     const elements = {
+        timer: document.getElementById('timer'),
+        timeDisplay: document.getElementById('timeDisplay'),
         answerForm: document.getElementById('answerForm'),
         nextBtn: document.getElementById('nextBtn'),
         submitBtn: document.getElementById('submitExamBtn'),
@@ -276,7 +284,50 @@ document.addEventListener('DOMContentLoaded', function() {
         submitForm: document.getElementById('submitExamForm'),
         modal: new bootstrap.Modal(document.getElementById('submitConfirmModal'))
     };
+
+    // Timer initialization with correct data attribute
+    let remainingSeconds = parseInt(elements.timer.dataset.remaining);
     
+    function updateTimer() {
+        if (remainingSeconds <= 0) {
+            if (elements.submitForm) {
+                elements.submitForm.submit();
+            }
+            return;
+        }
+
+        const hours = Math.floor(remainingSeconds / 3600);
+        const minutes = Math.floor((remainingSeconds % 3600) / 60);
+        const seconds = remainingSeconds % 60;
+
+        elements.timeDisplay.textContent = 
+            `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+        // Warning states for timer
+        if (remainingSeconds <= 300) { // Last 5 minutes
+            elements.timer.classList.remove('bg-primary', 'bg-warning');
+            elements.timer.classList.add('bg-danger', 'timer-blink');
+        } else if (remainingSeconds <= 600) { // Last 10 minutes
+            elements.timer.classList.remove('bg-primary', 'bg-danger', 'timer-blink');
+            elements.timer.classList.add('bg-warning');
+            elements.timeDisplay.style.color = '#000';
+        }
+
+        remainingSeconds--;
+    }
+
+    // Start timer
+    if (elements.timer && elements.timeDisplay) {
+        updateTimer();
+        const timerInterval = setInterval(updateTimer, 1000);
+        
+        // Clean up timer on page unload
+        window.addEventListener('beforeunload', () => {
+            clearInterval(timerInterval);
+        });
+    }
+
+    // Rest of the existing code...
     const maxAnswers = <?php echo $current_question['max_correct_answers']; ?>;
     let saveTimeout;
     let isSaving = false;
@@ -431,6 +482,52 @@ document.addEventListener('DOMContentLoaded', function() {
 .form-check:hover {
     background-color: #f8f9fa;
     border-radius: 0.25rem;
+}
+
+.exam-timer {
+    min-width: 280px;
+}
+
+.exam-timer .badge {
+    font-size: 1.8rem !important;
+    padding: 1.2rem !important;
+    min-width: 280px;
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.exam-timer .badge i {
+    font-size: 1.8rem;
+    margin-right: 1rem;
+    vertical-align: middle;
+}
+
+.exam-timer .badge #timeDisplay {
+    font-family: monospace;
+    font-weight: 600;
+}
+
+.timer-blink {
+    animation: timerBlink 1s infinite;
+}
+
+@keyframes timerBlink {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+.progress {
+    height: 2.5rem !important;
+    border-radius: 1rem;
+    background-color: #f8f9fa;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: width 0.3s ease;
 }
 </style>
 
