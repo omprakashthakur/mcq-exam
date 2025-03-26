@@ -6,102 +6,138 @@ require_once '../config/database.php';
 // Require authentication
 require_auth();
 
-$exam_id = $_GET['exam_id'] ?? 0;
-
-try {
-    // Check if exam exists and is active
-    $stmt = $pdo->prepare("
-        SELECT e.*, 
-            (SELECT COUNT(*) FROM exam_requests 
-             WHERE user_id = ? AND exam_set_id = ? AND status = 'pending') as pending_requests,
-            COUNT(DISTINCT q.id) as question_count
-        FROM exam_sets e
-        LEFT JOIN questions q ON e.id = q.exam_set_id
-        WHERE e.id = ? AND e.is_active = 1
-        GROUP BY e.id
-    ");
-    $stmt->execute([$_SESSION['user_id'], $exam_id, $exam_id]);
-    $exam = $stmt->fetch();
-
-    if (!$exam) {
-        throw new Exception('Exam not found or not available');
-    }
-
-    if ($exam['pending_requests'] > 0) {
-        throw new Exception('You already have a pending request for this exam');
-    }
-
-    if ($exam['question_count'] == 0) {
-        throw new Exception('This exam is not yet ready for requests');
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        $exam_id = filter_input(INPUT_POST, 'exam_id', FILTER_VALIDATE_INT);
+        $request_type = filter_input(INPUT_POST, 'request_type', FILTER_SANITIZE_STRING);
         $reason = filter_input(INPUT_POST, 'request_reason', FILTER_UNSAFE_RAW);
-        $reason = strip_tags(trim($reason));
+        $preferred_date = filter_input(INPUT_POST, 'preferred_date', FILTER_SANITIZE_STRING);
         
-        if (empty($reason)) {
-            throw new Exception('Please provide a reason for your exam request');
+        if (!$exam_id || !$reason || !$preferred_date) {
+            throw new Exception('Please fill in all required fields');
         }
 
-        // Insert exam request
+        // Validate preferred date
+        $preferred = new DateTime($preferred_date);
+        $now = new DateTime();
+        if ($preferred <= $now) {
+            throw new Exception('Preferred date must be in the future');
+        }
+
+        $pdo->beginTransaction();
+
+        if ($request_type === 'retake') {
+            // Check previous attempts
+            $stmt = $pdo->prepare("
+                SELECT COUNT(*) as attempt_count,
+                       MAX(score) as best_score
+                FROM exam_attempts 
+                WHERE user_id = ? AND exam_set_id = ? AND status = 'completed'
+            ");
+            $stmt->execute([$_SESSION['user_id'], $exam_id]);
+            $attempt_data = $stmt->fetch();
+
+            if ($attempt_data['attempt_count'] == 0) {
+                throw new Exception('Cannot request retake - no previous attempts found');
+            }
+
+            // Insert retake request
+            $stmt = $pdo->prepare("
+                INSERT INTO exam_retake_requests (
+                    user_id,
+                    exam_set_id,
+                    previous_attempt_id,
+                    request_date,
+                    status,
+                    admin_remarks,
+                    retake_count
+                ) VALUES (
+                    ?,
+                    ?,
+                    (SELECT id FROM exam_attempts 
+                     WHERE user_id = ? AND exam_set_id = ? 
+                     ORDER BY start_time DESC LIMIT 1),
+                    NOW(),
+                    'pending',
+                    NULL,
+                    ?
+                )
+            ");
+            $stmt->execute([
+                $_SESSION['user_id'],
+                $exam_id,
+                $_SESSION['user_id'],
+                $exam_id,
+                $attempt_data['attempt_count'] + 1
+            ]);
+        } else {
+            // Check for existing requests
+            $stmt = $pdo->prepare("
+                SELECT COUNT(*) 
+                FROM exam_requests 
+                WHERE user_id = ? AND exam_set_id = ? AND status = 'pending'
+            ");
+            $stmt->execute([$_SESSION['user_id'], $exam_id]);
+            if ($stmt->fetchColumn() > 0) {
+                throw new Exception('You already have a pending request for this exam');
+            }
+
+            // Insert new exam request
+            $stmt = $pdo->prepare("
+                INSERT INTO exam_requests (
+                    user_id,
+                    exam_set_id,
+                    request_reason,
+                    preferred_date,
+                    request_date,
+                    status
+                ) VALUES (?, ?, ?, ?, NOW(), 'pending')
+            ");
+            $stmt->execute([
+                $_SESSION['user_id'],
+                $exam_id,
+                $reason,
+                $preferred_date
+            ]);
+        }
+
+        // Create notification for admin
         $stmt = $pdo->prepare("
-            INSERT INTO exam_requests (
+            INSERT INTO notifications (
                 user_id,
-                exam_set_id,
-                request_reason,
-                preferred_date,
-                request_date
-            ) VALUES (?, ?, ?, DATE_ADD(NOW(), INTERVAL 1 DAY), NOW())
+                type,
+                message,
+                related_id
+            ) SELECT 
+                u.id,
+                ?,
+                CONCAT('New ', ?, ' request from ', s.username),
+                ?
+            FROM users u
+            CROSS JOIN users s
+            WHERE u.role = 'admin' AND s.id = ?
         ");
-        
         $stmt->execute([
-            $_SESSION['user_id'],
+            $request_type === 'retake' ? 'retake_request' : 'exam_request',
+            $request_type === 'retake' ? 'exam retake' : 'exam',
             $exam_id,
-            $reason
+            $_SESSION['user_id']
         ]);
 
-        $_SESSION['success'] = 'Exam request submitted successfully. Please wait for admin approval.';
-        header('Location: dashboard.php');
-        exit();
+        $pdo->commit();
+        $_SESSION['success'] = 'Your ' . ($request_type === 'retake' ? 'retake' : 'exam') . ' request has been submitted successfully';
+    } catch (Exception $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        $_SESSION['error'] = $e->getMessage();
     }
-
-    $pageTitle = "Request Exam Access";
-    include '../includes/header.php';
-    ?>
-
-    <div class="container py-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">Request Exam Access</h5>
-            </div>
-            <div class="card-body">
-                <div class="alert alert-info">
-                    <strong>Exam:</strong> <?php echo htmlspecialchars($exam['title']); ?><br>
-                    <strong>Duration:</strong> <?php echo $exam['duration_minutes']; ?> minutes<br>
-                    <strong>Questions:</strong> <?php echo $exam['question_count']; ?>
-                </div>
-                
-                <form method="POST" action="">
-                    <div class="mb-3">
-                        <label for="request_reason" class="form-label">Request Reason</label>
-                        <textarea class="form-control" id="request_reason" name="request_reason" rows="4" required
-                                placeholder="Please explain why you want to take this exam..."></textarea>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <button type="submit" class="btn btn-primary">Submit Request</button>
-                        <a href="dashboard.php" class="btn btn-secondary">Cancel</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <?php include '../includes/footer.php';
-
-} catch (Exception $e) {
-    $_SESSION['error'] = $e->getMessage();
+    
     header('Location: dashboard.php');
     exit();
 }
+
+// If not POST request, redirect back to dashboard
+header('Location: dashboard.php');
+exit();
 ?>

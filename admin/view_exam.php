@@ -322,6 +322,27 @@ include 'includes/header.php';
                         <?php endif; ?>
                     </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Exam Details</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Title:</strong> <?php echo htmlspecialchars($exam['title']); ?></p>
+                                <p><strong>Set Code:</strong> 
+                                    <?php if ($exam['exam_set_code']): ?>
+                                        <code><?php echo htmlspecialchars($exam['exam_set_code']); ?></code>
+                                    <?php else: ?>
+                                        <code>EX<?php echo sprintf('%04d', $exam['id']); ?></code>
+                                    <?php endif; ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

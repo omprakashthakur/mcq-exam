@@ -70,6 +70,13 @@ CREATE TABLE IF NOT EXISTS exam_sets (
     FOREIGN KEY (updated_by) REFERENCES users(id) ON DELETE SET NULL
 );
 
+-- Add exam_set_code column to exam_sets table if it doesn't exist
+ALTER TABLE exam_sets
+ADD COLUMN IF NOT EXISTS exam_set_code VARCHAR(20) UNIQUE DEFAULT NULL;
+
+-- Create index on exam_set_code for faster lookups
+CREATE INDEX IF NOT EXISTS idx_exam_set_code ON exam_sets(exam_set_code);
+
 -- Questions table
 CREATE TABLE IF NOT EXISTS questions (
     id INT PRIMARY KEY AUTO_INCREMENT,

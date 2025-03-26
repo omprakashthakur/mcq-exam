@@ -42,6 +42,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception('Please fill in all required fields');
         }
 
+        // Check for existing active exam access
+        $stmt = $pdo->prepare("
+            SELECT COUNT(*) 
+            FROM exam_access 
+            WHERE user_id = ? 
+            AND exam_set_id = ? 
+            AND expiry_date > NOW() 
+            AND is_used = 0
+        ");
+        $stmt->execute([$student_id, $exam_id]);
+        if ($stmt->fetchColumn() > 0) {
+            throw new Exception('Student already has active access to this exam');
+        }
+
         // Validate dates
         $start = new DateTime($start_date);
         $current = new DateTime();

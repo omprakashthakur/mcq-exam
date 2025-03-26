@@ -15,9 +15,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pass_percentage = floatval($_POST['pass_percentage'] ?? 60);
         $is_active = isset($_POST['is_active']) ? 1 : 0;
         $is_public = isset($_POST['is_public']) ? 1 : 0;
+        $exam_set_code = trim($_POST['exam_set_code'] ?? '');
 
         if (empty($title)) {
             throw new Exception('Exam title is required.');
+        }
+
+        // Validate exam set code format
+        if (!empty($exam_set_code)) {
+            if (!preg_match('/^[A-Za-z0-9-_]{1,20}$/', $exam_set_code)) {
+                throw new Exception('Invalid exam set code format. Use only letters, numbers, hyphens and underscores.');
+            }
+            
+            // Check if exam set code already exists
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM exam_sets WHERE exam_set_code = ?");
+            $stmt->execute([$exam_set_code]);
+            if ($stmt->fetchColumn() > 0) {
+                throw new Exception('This exam set code is already in use.');
+            }
         }
 
         $pdo->beginTransaction();
@@ -31,9 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 pass_percentage, 
                 is_active,
                 is_public,
+                exam_set_code,
                 created_by,
                 created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
         ");
         $stmt->execute([
             $title,
@@ -42,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pass_percentage,
             $is_active,
             $is_public,
+            $exam_set_code,
             $_SESSION['user_id']
         ]);
 
@@ -63,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Fetch existing exams with creator info
 $stmt = $pdo->query("
     SELECT e.*, u.username as created_by_name,
+           e.exam_set_code,
            (SELECT COUNT(*) FROM questions q WHERE q.exam_set_id = e.id) as question_count
     FROM exam_sets e
     LEFT JOIN users u ON e.created_by = u.id
@@ -110,6 +128,7 @@ include 'includes/header.php';
                             <tr>
                                 <th style="width: 50px">ID</th>
                                 <th>Title</th>
+                                <th>Set Code</th>
                                 <th>Questions</th>
                                 <th>Duration</th>
                                 <th>Pass %</th>
@@ -121,7 +140,7 @@ include 'includes/header.php';
                         <tbody>
                             <?php if (empty($exams)): ?>
                                 <tr>
-                                    <td colspan="8" class="text-center">No exams found</td>
+                                    <td colspan="9" class="text-center">No exams found</td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($exams as $exam): ?>
@@ -133,6 +152,13 @@ include 'includes/header.php';
                                         </a>
                                         <?php if ($exam['is_public']): ?>
                                             <span class="badge bg-info">Public</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?php if ($exam['exam_set_code']): ?>
+                                            <code><?php echo htmlspecialchars($exam['exam_set_code']); ?></code>
+                                        <?php else: ?>
+                                            <code>EX<?php echo sprintf('%04d', $exam['id']); ?></code>
                                         <?php endif; ?>
                                     </td>
                                     <td>
@@ -202,6 +228,15 @@ include 'includes/header.php';
                         <label for="title" class="form-label">Exam Title</label>
                         <input type="text" class="form-control" id="title" name="title" required>
                         <div class="invalid-feedback">Please provide an exam title.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="exam_set_code" class="form-label">Exam Set Code</label>
+                        <input type="text" class="form-control" id="exam_set_code" name="exam_set_code" 
+                               pattern="[A-Za-z0-9-_]{1,20}" maxlength="20"
+                               placeholder="e.g., MATH101 or PROG-2023">
+                        <div class="form-text">Optional. Use letters, numbers, hyphens and underscores only.</div>
+                        <div class="invalid-feedback">Invalid format. Use only letters, numbers, hyphens and underscores.</div>
                     </div>
                     
                     <div class="mb-3">

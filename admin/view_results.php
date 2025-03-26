@@ -1,233 +1,183 @@
 <?php
 session_start();
-require_once '../config/database.php';
 require_once '../includes/security.php';
+require_once '../config/database.php';
 
 // Require admin authentication
 require_admin();
 
-// Get filter parameters
-$exam_id = $_GET['exam_id'] ?? '';
-$status = $_GET['status'] ?? '';
-$date_from = $_GET['date_from'] ?? '';
-$date_to = $_GET['date_to'] ?? '';
+// Pagination settings
+$results_per_page = 6;
+$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($current_page - 1) * $results_per_page;
 
-// Build query conditions
-$conditions = ['1=1'];
-$params = [];
-
-if ($exam_id) {
-    $conditions[] = 'ea.exam_set_id = ?';
-    $params[] = $exam_id;
-}
-
-if ($status) {
-    $conditions[] = 'ea.status = ?';
-    $params[] = $status;
-}
-
-if ($date_from) {
-    $conditions[] = 'DATE(ea.start_time) >= ?';
-    $params[] = $date_from;
-}
-
-if ($date_to) {
-    $conditions[] = 'DATE(ea.start_time) <= ?';
-    $params[] = $date_to;
-}
-
-// Get statistics
-$stmt = $pdo->query("
-    SELECT 
-        COUNT(*) as total_attempts,
-        COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed_attempts,
-        AVG(CASE WHEN status = 'completed' THEN score END) as avg_score,
-        (COUNT(CASE WHEN status = 'completed' AND score >= 60 THEN 1 END) * 100.0 / 
-         NULLIF(COUNT(CASE WHEN status = 'completed' THEN 1 END), 0)) as pass_rate
-    FROM exam_attempts
+// Get total number of results
+$total_query = $pdo->query("
+    SELECT COUNT(*) 
+    FROM exam_attempts ea
+    JOIN users u ON ea.user_id = u.id
+    JOIN exam_sets e ON ea.exam_set_id = e.id
 ");
-$stats = $stmt->fetch();
+$total_results = $total_query->fetchColumn();
+$total_pages = ceil($total_results / $results_per_page);
 
-// Get all exam attempts with filters
-$where = implode(' AND ', $conditions);
+// Fetch exam attempts with pagination
 $stmt = $pdo->prepare("
     SELECT 
         ea.*,
+        u.username,
+        COALESCE(sp.full_name, u.username) as student_name,
         e.title as exam_title,
         e.pass_percentage,
-        u.username,
-        u.email,
-        sp.full_name
+        e.exam_set_code
     FROM exam_attempts ea
-    JOIN exam_sets e ON ea.exam_set_id = e.id
     JOIN users u ON ea.user_id = u.id
     LEFT JOIN student_profiles sp ON u.id = sp.user_id
-    WHERE {$where}
+    JOIN exam_sets e ON ea.exam_set_id = e.id
     ORDER BY ea.start_time DESC
+    LIMIT ? OFFSET ?
 ");
-$stmt->execute($params);
+$stmt->execute([$results_per_page, $offset]);
 $attempts = $stmt->fetchAll();
 
-// Get all exams for filter
-$exams = $pdo->query("SELECT id, title FROM exam_sets ORDER BY title")->fetchAll();
-
-$pageTitle = "Exam Results";
+$pageTitle = "View Exam Results";
 include 'includes/header.php';
 ?>
 
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0">Exam Results</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Exam Results</li>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Custom CSS for table responsiveness -->
+<style>
+.table-responsive {
+    margin: 0;
+    padding: 0;
+}
 
-<section class="content">
-    <div class="container-fluid">
-        <!-- Stats Cards -->
-        <div class="row">
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box">
-                    <span class="info-box-icon bg-primary"><i class="fas fa-file-alt"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Total Attempts</span>
-                        <span class="info-box-number"><?php echo $stats['total_attempts']; ?></span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box">
-                    <span class="info-box-icon bg-success"><i class="fas fa-check-circle"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Completed Attempts</span>
-                        <span class="info-box-number"><?php echo $stats['completed_attempts']; ?></span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box">
-                    <span class="info-box-icon bg-info"><i class="fas fa-chart-line"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Average Score</span>
-                        <span class="info-box-number"><?php echo number_format($stats['avg_score'] ?? 0, 1); ?>%</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box">
-                    <span class="info-box-icon bg-warning"><i class="fas fa-trophy"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">Pass Rate</span>
-                        <span class="info-box-number"><?php echo number_format($stats['pass_rate'] ?? 0, 1); ?>%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+.table-wrapper {
+    position: relative;
+    max-height: 600px;
+    overflow: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+}
 
-        <!-- Filters -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h3 class="card-title">Filters</h3>
-            </div>
-            <div class="card-body">
-                <form method="GET" class="row g-3">
-                    <div class="col-md-3">
-                        <label for="exam_id" class="form-label">Exam</label>
-                        <select class="form-select" id="exam_id" name="exam_id">
-                            <option value="">All Exams</option>
-                            <?php foreach ($exams as $exam): ?>
-                                <option value="<?php echo $exam['id']; ?>" <?php echo ($exam_id == $exam['id']) ? 'selected' : ''; ?>>
-                                    <?php echo htmlspecialchars($exam['title']); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-select" id="status" name="status">
-                            <option value="">All Status</option>
-                            <option value="completed" <?php echo ($status == 'completed') ? 'selected' : ''; ?>>Completed</option>
-                            <option value="in_progress" <?php echo ($status == 'in_progress') ? 'selected' : ''; ?>>In Progress</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="date_from" class="form-label">Date From</label>
-                        <input type="date" class="form-control" id="date_from" name="date_from" value="<?php echo $date_from; ?>">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="date_to" class="form-label">Date To</label>
-                        <input type="date" class="form-control" id="date_to" name="date_to" value="<?php echo $date_to; ?>">
-                    </div>
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-filter"></i> Apply Filters
-                        </button>
-                        <a href="view_results.php" class="btn btn-secondary">
-                            <i class="fas fa-sync"></i> Reset
-                        </a>
-                    </div>
-                </form>
-            </div>
-        </div>
+.table-wrapper table {
+    margin-bottom: 0;
+}
 
-        <!-- Results Table -->
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Exam Results</h3>
-            </div>
-            <div class="card-body">
+.table-wrapper thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 1;
+}
+
+.pagination-wrapper {
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .table-wrapper {
+        max-height: 400px;
+    }
+    
+    .table td, .table th {
+        min-width: 120px;
+    }
+    
+    .table td:first-child, .table th:first-child {
+        position: sticky;
+        left: 0;
+        background-color: #fff;
+        z-index: 2;
+    }
+    
+    .table thead th:first-child {
+        z-index: 3;
+    }
+}
+
+.score-cell {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.score-pass {
+    color: #28a745;
+}
+
+.score-fail {
+    color: #dc3545;
+}
+
+.status-badge {
+    min-width: 100px;
+    display: inline-block;
+    text-align: center;
+}
+</style>
+
+<div class="container-fluid py-4">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Exam Results</h3>
+        </div>
+        <div class="card-body">
+            <?php if (empty($attempts)): ?>
+                <div class="alert alert-info">No exam attempts found.</div>
+            <?php else: ?>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>Student</th>
-                                <th>Exam</th>
-                                <th>Start Time</th>
-                                <th>End Time</th>
-                                <th>Score</th>
-                                <th>Status</th>
-                                <th>Result</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (empty($attempts)): ?>
+                    <div class="table-wrapper">
+                        <table class="table table-hover">
+                            <thead>
                                 <tr>
-                                    <td colspan="8" class="text-center">No exam attempts found</td>
+                                    <th>Student</th>
+                                    <th>Exam</th>
+                                    <th>Set Code</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Score</th>
+                                    <th>Status</th>
+                                    <th>Result</th>
+                                    <th>Action</th>
                                 </tr>
-                            <?php else: ?>
+                            </thead>
+                            <tbody>
                                 <?php foreach ($attempts as $attempt): ?>
                                     <tr>
                                         <td>
-                                            <?php echo htmlspecialchars($attempt['full_name'] ?: $attempt['username']); ?><br>
-                                            <small class="text-muted"><?php echo htmlspecialchars($attempt['email']); ?></small>
+                                            <div><?php echo htmlspecialchars($attempt['student_name']); ?></div>
+                                            <small class="text-muted"><?php echo $attempt['username']; ?></small>
                                         </td>
                                         <td><?php echo htmlspecialchars($attempt['exam_title']); ?></td>
+                                        <td>
+                                            <code>
+                                                <?php echo $attempt['exam_set_code'] ?? 'EX' . sprintf('%04d', $attempt['exam_set_id']); ?>
+                                            </code>
+                                        </td>
                                         <td><?php echo date('Y-m-d H:i', strtotime($attempt['start_time'])); ?></td>
                                         <td>
-                                            <?php echo $attempt['end_time'] ? date('Y-m-d H:i', strtotime($attempt['end_time'])) : '<span class="badge bg-warning">In Progress</span>'; ?>
+                                            <?php echo $attempt['end_time'] ? date('Y-m-d H:i', strtotime($attempt['end_time'])) : '-'; ?>
+                                        </td>
+                                        <td class="score-cell <?php echo ($attempt['score'] >= $attempt['pass_percentage']) ? 'score-pass' : 'score-fail'; ?>">
+                                            <?php 
+                                            if ($attempt['status'] === 'completed') {
+                                                echo number_format($attempt['score'], 1) . '%';
+                                            } else {
+                                                echo '-';
+                                            }
+                                            ?>
                                         </td>
                                         <td>
-                                            <?php echo $attempt['status'] === 'completed' ? number_format($attempt['score'], 1) . '%' : '-'; ?>
-                                        </td>
-                                        <td>
-                                            <?php if ($attempt['status'] === 'completed'): ?>
-                                                <span class="badge bg-success">Completed</span>
-                                            <?php else: ?>
-                                                <span class="badge bg-warning">In Progress</span>
-                                            <?php endif; ?>
+                                            <?php
+                                            $status_badges = [
+                                                'in_progress' => 'warning',
+                                                'completed' => 'success',
+                                                'pending' => 'info'
+                                            ];
+                                            $badge = $status_badges[$attempt['status']] ?? 'secondary';
+                                            ?>
+                                            <span class="badge bg-<?php echo $badge; ?> status-badge">
+                                                <?php echo ucfirst(str_replace('_', ' ', $attempt['status'])); ?>
+                                            </span>
                                         </td>
                                         <td>
                                             <?php if ($attempt['status'] === 'completed'): ?>
@@ -237,66 +187,100 @@ include 'includes/header.php';
                                                     <span class="badge bg-danger">Fail</span>
                                                 <?php endif; ?>
                                             <?php else: ?>
-                                                -
+                                                <span class="badge bg-secondary">-</span>
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            <a href="view_attempt.php?id=<?php echo $attempt['id']; ?>" class="btn btn-sm btn-info">
+                                            <a href="view_attempt.php?id=<?php echo $attempt['id']; ?>" 
+                                               class="btn btn-sm btn-info">
                                                 <i class="fas fa-eye"></i> View
                                             </a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <?php if ($total_pages > 1): ?>
+                        <div class="pagination-wrapper d-flex justify-content-between align-items-center mt-3">
+                            <div class="pagination-info">
+                                Showing <?php echo $offset + 1; ?> to <?php echo min($offset + $results_per_page, $total_results); ?> 
+                                of <?php echo $total_results; ?> results
+                            </div>
+                            <ul class="pagination mb-0">
+                                <?php if ($current_page > 1): ?>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<?php echo $current_page - 1; ?>">
+                                            <i class="fas fa-chevron-left"></i> Previous
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+
+                                <?php
+                                $start_page = max(1, $current_page - 2);
+                                $end_page = min($total_pages, $current_page + 2);
+                                
+                                if ($start_page > 1) {
+                                    echo '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>';
+                                    if ($start_page > 2) {
+                                        echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                    }
+                                }
+
+                                for ($i = $start_page; $i <= $end_page; $i++) {
+                                    echo '<li class="page-item' . ($i === $current_page ? ' active' : '') . '">';
+                                    echo '<a class="page-link" href="?page=' . $i . '">' . $i . '</a>';
+                                    echo '</li>';
+                                }
+
+                                if ($end_page < $total_pages) {
+                                    if ($end_page < $total_pages - 1) {
+                                        echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                    }
+                                    echo '<li class="page-item"><a class="page-link" href="?page=' . $total_pages . '">' . $total_pages . '</a></li>';
+                                }
+                                ?>
+
+                                <?php if ($current_page < $total_pages): ?>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=<?php echo $current_page + 1; ?>">
+                                            Next <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
                 </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
-</section>
+</div>
 
-<style>
-.info-box {
-    min-height: 100px;
-    background: #ffffff;
-    width: 100%;
-    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
-    border-radius: 0.25rem;
-    margin-bottom: 1rem;
-    display: flex;
-}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
 
-.info-box-icon {
-    width: 70px;
-    font-size: 1.875rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-}
-
-.info-box-content {
-    padding: 15px 10px;
-    flex: 1;
-}
-
-.info-box-text {
-    display: block;
-    font-size: 1rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #666;
-}
-
-.info-box-number {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #333;
-}
-</style>
+    // Add shadow effect when scrolling the table
+    const tableWrapper = document.querySelector('.table-wrapper');
+    if (tableWrapper) {
+        tableWrapper.addEventListener('scroll', function() {
+            const thead = this.querySelector('thead');
+            if (this.scrollTop > 0) {
+                thead.classList.add('shadow');
+            } else {
+                thead.classList.remove('shadow');
+            }
+        });
+    }
+});
+</script>
 
 <?php include 'includes/footer.php'; ?>
 </body>
