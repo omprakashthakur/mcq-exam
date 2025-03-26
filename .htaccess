@@ -1,0 +1,24 @@
+# Enable rewrite engine
+RewriteEngine On
+
+# Prevent directory listing
+Options -Indexes
+
+# PHP error reporting
+php_flag display_errors on
+php_value error_reporting E_ALL
+php_flag log_errors on
+php_value error_log "php_errors.log"
+
+# Block access to sensitive files
+<FilesMatch "\.(sql|lock|log)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Set security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>

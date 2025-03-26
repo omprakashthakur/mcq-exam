@@ -1,0 +1,264 @@
+/* Global Styles */
+body {
+    background: #f8f9fa;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    height: 100vh;
+    background: #343a40;
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.nav-link {
+    color: rgba(255,255,255,.75);
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: white;
+}
+
+.nav-link.active {
+    color: white;
+    background: rgba(255,255,255,.1);
+    border-radius: 5px;
+}
+
+/* Card Styles */
+.card {
+    box-shadow: 0 2px 4px rgba(0,0,0,.05);
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,.125);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,.1);
+}
+
+/* Login/Register Form Styles */
+.auth-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.brand {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Question Styles */
+.question-card {
+    margin-bottom: 20px;
+}
+
+.option-label {
+    display: block;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.option-label:hover {
+    background-color: #f8f9fa;
+}
+
+input[type="radio"]:checked + .option-label {
+    background-color: #e7f3ff;
+    border-color: #0d6efd;
+}
+
+/* Timer Styles */
+.timer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(255,255,255,0.95);
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-weight: bold;
+}
+
+/* Result Page Styles */
+.result-header {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.05);
+}
+
+.selected-correct {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.selected-incorrect {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.correct-answer {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.explanation {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+/* Dashboard Stats */
+.stat-card {
+    background: linear-gradient(45deg, #4158D0, #C850C0);
+    color: white;
+    border: none;
+}
+
+.stat-card.primary {
+    background: linear-gradient(45deg, #4158D0, #C850C0);
+}
+
+.stat-card.success {
+    background: linear-gradient(45deg, #11998e, #38ef7d);
+}
+
+.stat-card.warning {
+    background: linear-gradient(45deg, #f12711, #f5af19);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    
+    .content {
+        margin-left: 0;
+    }
+    
+    .auth-container {
+        margin: 20px auto;
+    }
+}
+
+/* Utility Classes */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.transition {
+    transition: all 0.3s ease;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Exam Result Styles */
+.question-block {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.question-block:last-child {
+    border-bottom: none;
+}
+
+.question-text {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.question-image {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.question-image img {
+    max-width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.option {
+    transition: all 0.2s ease-in-out;
+}
+
+.option:hover {
+    transform: translateX(5px);
+}
+
+.option .fas {
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.explanation {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.explanation h6 {
+    margin-bottom: 0.5rem;
+}
+
+.badge.bg-info {
+    font-weight: normal;
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+}
+
+/* Status indicators */
+.text-success {
+    color: #28a745 !important;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+.bg-success.bg-opacity-10 {
+    background-color: rgba(40, 167, 69, 0.1) !important;
+}
+
+.bg-danger.bg-opacity-10 {
+    background-color: rgba(220, 53, 69, 0.1) !important;
+}
