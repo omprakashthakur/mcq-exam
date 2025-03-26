@@ -136,19 +136,33 @@ include '../includes/header.php';
             <!-- Answer Options -->
             <form id="answerForm" class="options-container">
                 <?php
-                $options = [
-                    'A' => $current_question['option_a'],
-                    'B' => $current_question['option_b'],
-                    'C' => $current_question['option_c'],
-                    'D' => $current_question['option_d'],
-                    'E' => $current_question['option_e'],
-                    'F' => $current_question['option_f']
-                ];
+                $options = [];
+                $max_options = 4; // Default for single answer questions
+                
+                // Determine number of options based on max_correct_answers
+                if ($current_question['max_correct_answers'] == 2) {
+                    $max_options = 5; // For two correct answers
+                } elseif ($current_question['max_correct_answers'] == 3) {
+                    $max_options = 6; // For three correct answers
+                }
+                
+                // Only include options up to the max_options limit and if they have content
+                $option_letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+                for ($i = 0; $i < $max_options; $i++) {
+                    $letter = $option_letters[$i];
+                    $option_value = $current_question['option_' . strtolower($letter)];
+                    if ($option_value !== null && trim($option_value) !== '') {
+                        $options[$letter] = $option_value;
+                    }
+                }
                 
                 $selected_options = explode(',', $current_question['selected_options'] ?? '');
-                
+                ?>
+                <div id="answerWarning" class="alert alert-warning d-none mb-3">
+                    Please select an answer before proceeding.
+                </div>
+                <?php 
                 foreach ($options as $key => $value):
-                    if ($value === null) continue;
                     $is_selected = in_array($key, $selected_options);
                 ?>
                     <div class="form-check option-container mb-3">
@@ -164,7 +178,7 @@ include '../includes/header.php';
                         </label>
                     </div>
                 <?php endforeach; ?>
-
+                
                 <input type="hidden" name="attempt_id" value="<?php echo $attempt_id; ?>">
                 <input type="hidden" name="question_id" value="<?php echo $current_question['id']; ?>">
             </form>
@@ -175,7 +189,7 @@ include '../includes/header.php';
     <div class="d-flex justify-content-between mt-4">
         <?php if ($current_num > 1): ?>
             <a href="?attempt_id=<?php echo $attempt_id; ?>&q=<?php echo $current_num - 1; ?>" 
-               class="btn btn-secondary">
+               class="btn btn-secondary" id="prevBtn">
                 <i class="fas fa-arrow-left"></i> Previous
             </a>
         <?php else: ?>
@@ -184,10 +198,9 @@ include '../includes/header.php';
 
         <div class="btn-group">
             <?php if ($current_num < $total_questions): ?>
-                <a href="?attempt_id=<?php echo $attempt_id; ?>&q=<?php echo $current_num + 1; ?>" 
-                   class="btn btn-primary" id="nextBtn">
+                <button type="button" class="btn btn-primary" id="nextBtn">
                     Next <i class="fas fa-arrow-right"></i>
-                </a>
+                </button>
             <?php endif; ?>
             
             <?php if ($current_num === $total_questions): ?>
@@ -217,24 +230,34 @@ include '../includes/header.php';
 </div>
 
 <!-- Submit Confirmation Modal -->
-<div class="modal fade" id="submitConfirmModal" tabindex="-1">
-    <div class="modal-dialog">
+<div class="modal fade" id="submitConfirmModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Submit Exam</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title">
+                    <i class="fas fa-exclamation-triangle"></i> Submit Exam Confirmation
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to submit your exam?</p>
-                <div id="unansweredWarning" class="alert alert-warning d-none">
+                <div class="alert alert-warning">
+                    <strong>Warning:</strong> Are you sure you want to submit your exam?
+                    <br>You cannot change your answers after submission.
+                </div>
+                <div id="unansweredWarning" class="alert alert-danger d-none">
+                    <i class="fas fa-exclamation-circle"></i>
                     You have unanswered questions. Are you sure you want to proceed?
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form action="submit_exam.php" method="POST">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> No, Cancel
+                </button>
+                <form id="submitExamForm" action="submit_exam.php" method="POST" class="d-inline">
                     <input type="hidden" name="attempt_id" value="<?php echo $attempt_id; ?>">
-                    <button type="submit" class="btn btn-success">Yes, Submit Exam</button>
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="fas fa-check"></i> Yes, Submit Exam
+                    </button>
                 </form>
             </div>
         </div>
@@ -243,249 +266,149 @@ include '../includes/header.php';
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const answerForm = document.getElementById('answerForm');
+    // Single declarations of all elements
+    const elements = {
+        answerForm: document.getElementById('answerForm'),
+        nextBtn: document.getElementById('nextBtn'),
+        submitBtn: document.getElementById('submitExamBtn'),
+        answerWarning: document.getElementById('answerWarning'),
+        unansweredWarning: document.getElementById('unansweredWarning'),
+        submitForm: document.getElementById('submitExamForm'),
+        modal: new bootstrap.Modal(document.getElementById('submitConfirmModal'))
+    };
+    
     const maxAnswers = <?php echo $current_question['max_correct_answers']; ?>;
-    const submitBtn = document.getElementById('submitExamBtn');
-    const submitModal = document.getElementById('submitConfirmModal');
-    const warningElement = document.getElementById('unansweredWarning');
     let saveTimeout;
     let isSaving = false;
 
-    // Debounce function to prevent multiple rapid saves
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    // Save answer function
+    // Answer saving function
     async function saveAnswer(formData) {
         if (isSaving) return;
-        
         try {
             isSaving = true;
             const response = await fetch('save_answer.php', {
                 method: 'POST',
-                body: formData,
-                headers: {
-                    'Cache-Control': 'no-cache'
-                }
+                body: formData
             });
-            
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
             const data = await response.json();
-            
             if (data.status === 'success') {
-                const questionBtn = document.querySelector(`a[href$="q=${<?php echo $current_num; ?>}"]`);
-                if (questionBtn) {
-                    questionBtn.classList.remove('btn-outline-secondary');
-                    questionBtn.classList.add('btn-success');
-                }
-                updateSubmitButton();
-            } else {
-                throw new Error(data.message || 'Failed to save answer');
+                updateQuestionStatus();
+                elements.answerWarning.classList.add('d-none');
             }
         } catch (error) {
-            console.error('Error saving answer:', error);
-            alert(error.message || 'Error saving your answer. Please try again.');
-            // Revert selection if save failed
-            if (maxAnswers === 1) {
-                document.querySelectorAll('.answer-option:checked').forEach(opt => opt.checked = false);
-            }
+            console.error('Error:', error);
         } finally {
             isSaving = false;
         }
     }
 
-    // Update submit button state
-    function updateSubmitButton() {
-        const unanswered = document.querySelectorAll('.btn-outline-secondary').length;
-        if (submitBtn) {
-            submitBtn.disabled = isSaving;
-            submitBtn.title = isSaving ? 'Please wait while saving...' : '';
+    // Update question navigation status
+    function updateQuestionStatus() {
+        const questionBtn = document.querySelector(`a[href$="q=${<?php echo $current_num; ?>}"]`);
+        if (questionBtn) {
+            questionBtn.classList.remove('btn-outline-secondary');
+            questionBtn.classList.add('btn-success');
         }
-        return unanswered;
     }
 
-    // Handle answer selection with debounce
-    const debouncedSave = debounce((formData) => {
-        saveAnswer(formData);
-    }, 500);
-
-    answerForm.addEventListener('change', function(e) {
-        if (!e.target.classList.contains('answer-option')) return;
-
-        // For multiple answers, check if max selections exceeded
-        if (maxAnswers > 1) {
-            const checked = document.querySelectorAll('.answer-option:checked');
-            if (checked.length > maxAnswers) {
-                e.target.checked = false;
-                alert(`You can only select up to ${maxAnswers} answers`);
-                return;
-            }
-        } else {
-            // For single answer, uncheck others
-            document.querySelectorAll('.answer-option:checked').forEach(input => {
-                if (input !== e.target) {
-                    input.checked = false;
-                }
-            });
+    // Answer validation
+    async function validateCurrentAnswer() {
+        const selectedOptions = document.querySelectorAll('.answer-option:checked');
+        if (selectedOptions.length === 0) {
+            elements.answerWarning.textContent = 'Question not completed. Please select an answer.';
+            elements.answerWarning.classList.remove('d-none');
+            elements.answerWarning.scrollIntoView({ behavior: 'smooth' });
+            return false;
         }
-
-        // Prepare and save form data
-        const formData = new FormData();
-        formData.append('attempt_id', answerForm.querySelector('[name="attempt_id"]').value);
-        formData.append('question_id', answerForm.querySelector('[name="question_id"]').value);
-        const selectedOptions = Array.from(document.querySelectorAll('.answer-option:checked')).map(opt => opt.value);
-        formData.append('selected_options', JSON.stringify(selectedOptions));
-
-        debouncedSave(formData);
-    });
-
-    // Timer functionality optimization
-    const timerElement = document.getElementById('timer');
-    const timeDisplay = document.getElementById('timeDisplay');
-    let remainingSeconds = parseInt(timerElement.dataset.remaining);
-    let timerInterval;
-    
-    function updateTimer() {
-        if (remainingSeconds <= 0) {
-            clearInterval(timerInterval);
-            submitExam();
-            return;
-        }
-
-        const minutes = Math.floor(remainingSeconds / 60);
-        const seconds = remainingSeconds % 60;
-        timeDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-        
-        if (remainingSeconds <= 300 && !timerElement.classList.contains('bg-danger')) {
-            timerElement.classList.remove('bg-primary');
-            timerElement.classList.add('bg-danger');
-            timerElement.style.animation = 'blink 1s infinite';
-        }
-
-        remainingSeconds--;
+        return true;
     }
 
-    // Start timer
-    updateTimer();
-    timerInterval = setInterval(updateTimer, 1000);
-
-    // Clean up timer on page unload
-    window.addEventListener('beforeunload', function() {
-        if (timerInterval) {
-            clearInterval(timerInterval);
-        }
-    });
-
-    // Optimized submit exam functionality
-    function submitExam() {
-        if (isSaving) {
-            alert('Please wait while saving your last answer...');
-            return;
-        }
-
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = 'submit_exam.php';
-        
-        const attemptInput = document.createElement('input');
-        attemptInput.type = 'hidden';
-        attemptInput.name = 'attempt_id';
-        attemptInput.value = answerForm.querySelector('[name="attempt_id"]').value;
-        
-        form.appendChild(attemptInput);
-        document.body.appendChild(form);
-        
-        // Disable submit button to prevent double submission
-        const submitButtons = document.querySelectorAll('button[type="submit"]');
-        submitButtons.forEach(btn => {
-            btn.disabled = true;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Submitting...';
-        });
-
-        form.submit();
-    }
-
-    // Handle submit modal cleanup
-    let bsModal;
-    if (submitModal) {
-        bsModal = new bootstrap.Modal(submitModal);
-        submitModal.addEventListener('hidden.bs.modal', function () {
-            const submitButtons = document.querySelectorAll('button[type="submit"]');
-            submitButtons.forEach(btn => {
-                btn.disabled = false;
-                btn.innerHTML = 'Yes, Submit Exam';
-            });
-        });
-    }
-
-    // Submit exam confirmation with retry logic
-    if (submitBtn) {
-        submitBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            if (isSaving) {
-                const confirmRetry = confirm('There is an answer being saved. Wait for it to complete or retry submission?');
-                if (confirmRetry) {
-                    isSaving = false;
-                }
-                return;
-            }
+    // Event listeners
+    if (elements.answerForm) {
+        elements.answerForm.addEventListener('change', async function(e) {
+            if (!e.target.classList.contains('answer-option')) return;
             
-            const unanswered = updateSubmitButton();
-            if (unanswered > 0) {
-                warningElement.textContent = `You have ${unanswered} unanswered question(s). Are you sure you want to proceed?`;
-                warningElement.classList.remove('d-none');
-            } else {
-                warningElement.classList.add('d-none');
-            }
+            clearTimeout(saveTimeout);
             
-            if (bsModal) {
-                bsModal.show();
-            }
-        });
-    }
-
-    // Handle final submit button in modal with retry mechanism
-    const finalSubmitForm = document.querySelector('#submitConfirmModal form');
-    if (finalSubmitForm) {
-        finalSubmitForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (isSaving) {
-                const confirmRetry = confirm('Still saving your last answer. Proceed anyway?');
-                if (!confirmRetry) {
+            if (maxAnswers > 1) {
+                const checked = document.querySelectorAll('.answer-option:checked');
+                if (checked.length > maxAnswers) {
+                    e.target.checked = false;
+                    alert(`You can only select up to ${maxAnswers} answers`);
                     return;
                 }
             }
-            submitExam();
+
+            const formData = new FormData(elements.answerForm);
+            const selectedOptions = Array.from(document.querySelectorAll('.answer-option:checked')).map(opt => opt.value);
+            formData.append('selected_options', JSON.stringify(selectedOptions));
+            
+            saveTimeout = setTimeout(() => saveAnswer(formData), 300);
         });
     }
 
-    // Add keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
-        // Prevent shortcuts while typing in form fields
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (elements.nextBtn) {
+        elements.nextBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            if (await validateCurrentAnswer()) {
+                window.location.href = `?attempt_id=${<?php echo $attempt_id; ?>}&q=${<?php echo $current_num + 1; ?>}`;
+            }
+        });
+    }
 
-        if (e.key === 'ArrowRight' && !e.ctrlKey && !e.altKey) {
-            // Next question
-            const nextBtn = document.querySelector('#nextBtn');
-            if (nextBtn) nextBtn.click();
-        } else if (e.key === 'ArrowLeft' && !e.ctrlKey && !e.altKey) {
-            // Previous question
-            const prevBtn = document.querySelector('.btn-secondary');
-            if (prevBtn && prevBtn.tagName === 'A') prevBtn.click();
-        }
-    });
+    if (elements.submitBtn) {
+        elements.submitBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            if (await validateCurrentAnswer()) {
+                const unansweredCount = document.querySelectorAll('.btn-outline-secondary').length;
+                if (unansweredCount > 0) {
+                    elements.unansweredWarning.innerHTML = `
+                        <i class="fas fa-exclamation-circle"></i>
+                        Warning: You have ${unansweredCount} unanswered question${unansweredCount > 1 ? 's' : ''}. 
+                        Are you sure you want to proceed?
+                    `;
+                    elements.unansweredWarning.classList.remove('d-none');
+                }
+                elements.modal.show();
+            }
+        });
+    }
+
+    if (elements.submitForm) {
+        elements.submitForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (await validateCurrentAnswer()) {
+                this.classList.add('submitted');
+                const submitButton = this.querySelector('button[type="submit"]');
+                if (submitButton) {
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Submitting...';
+                }
+                this.submit();
+            }
+        });
+    }
+
+    // Modal handling
+    const modalElement = document.getElementById('submitConfirmModal');
+    if (modalElement) {
+        modalElement.addEventListener('hidden.bs.modal', function() {
+            document.querySelectorAll('button[type="submit"], #submitExamBtn').forEach(btn => {
+                btn.disabled = false;
+                if (btn.classList.contains('btn-success')) {
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Submit Exam';
+                }
+            });
+            elements.unansweredWarning.classList.add('d-none');
+        });
+
+        document.querySelectorAll('[data-bs-dismiss="modal"]').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                elements.modal.hide();
+            });
+        });
+    }
 });
 </script>
 

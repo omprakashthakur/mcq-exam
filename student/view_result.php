@@ -341,8 +341,28 @@ include '../includes/header.php';
                     <div class="mb-3">
                         <strong>Time Taken:</strong> 
                         <?php 
-                        $time_taken = $attempt['duration_taken'] ?? $attempt['time_taken'] ?? 0;
-                        echo $time_taken . ' minutes';
+                        // Calculate actual time taken from start_time to end_time
+                        $start = new DateTime($attempt['start_time']);
+                        $end = new DateTime($attempt['end_time']);
+                        $interval = $start->diff($end);
+                        
+                        // Format the time taken in a readable format
+                        $hours = $interval->h + ($interval->days * 24);
+                        $minutes = $interval->i;
+                        $seconds = $interval->s;
+                        
+                        $time_parts = [];
+                        if ($hours > 0) {
+                            $time_parts[] = $hours . ' hour' . ($hours > 1 ? 's' : '');
+                        }
+                        if ($minutes > 0) {
+                            $time_parts[] = $minutes . ' minute' . ($minutes > 1 ? 's' : '');
+                        }
+                        if ($seconds > 0 || empty($time_parts)) {
+                            $time_parts[] = $seconds . ' second' . ($seconds > 1 ? 's' : '');
+                        }
+                        
+                        echo implode(', ', $time_parts);
                         ?>
                     </div>
                 </div>
