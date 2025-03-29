@@ -26,6 +26,35 @@ document.addEventListener('DOMContentLoaded', function() {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     });
 
+    // Initialize AdminLTE pushmenu
+    const pushmenuBtn = document.querySelector('[data-widget="pushmenu"]');
+    const body = document.querySelector('body');
+    
+    if (pushmenuBtn) {
+        pushmenuBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            body.classList.toggle('sidebar-collapse');
+            body.classList.toggle('sidebar-open');
+            localStorage.setItem('sidebar-state', body.classList.contains('sidebar-collapse'));
+        });
+    }
+
+    // Restore sidebar state from localStorage
+    const sidebarState = localStorage.getItem('sidebar-state');
+    if (sidebarState === 'true') {
+        body.classList.add('sidebar-collapse');
+    }
+
+    // Auto collapse sidebar on mobile
+    function handleResize() {
+        if (window.innerWidth <= 768) {
+            body.classList.add('sidebar-collapse');
+        }
+    }
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Check on initial load
+
     // Auto-hide alerts after 5 seconds
     setTimeout(function() {
         var alerts = document.querySelectorAll('.alert');

@@ -342,3 +342,43 @@
     font-size: 0.75rem;
     padding: 0.4em 0.8em;
 }
+
+/* Sidebar collapse behavior */
+.sidebar-mini.sidebar-collapse .main-sidebar {
+    width: 4.6rem !important;
+    transition: width 0.3s ease-in-out;
+}
+
+.sidebar-mini.sidebar-collapse .main-sidebar .nav-sidebar .nav-link p,
+.sidebar-mini.sidebar-collapse .main-sidebar .brand-text,
+.sidebar-mini.sidebar-collapse .main-sidebar .user-panel .info {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.sidebar-mini.sidebar-collapse .content-wrapper {
+    margin-left: 4.6rem !important;
+}
+
+.sidebar-mini .main-sidebar {
+    transition: width 0.3s ease-in-out;
+}
+
+.sidebar-mini .main-sidebar .nav-sidebar .nav-link p,
+.sidebar-mini .main-sidebar .brand-text,
+.sidebar-mini .main-sidebar .user-panel .info {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.main-sidebar {
+    transition: width 0.3s ease-in-out;
+}
+
+.nav-link[data-widget="pushmenu"] {
+    transition: transform 0.3s ease;
+}
+
+.sidebar-collapse .nav-link[data-widget="pushmenu"] {
+    transform: rotate(180deg);
+}
