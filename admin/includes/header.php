@@ -62,12 +62,6 @@ if (!isset($pageTitle)) {
     .content-wrapper {
         background-color: #f4f6f9;
     }
-    .main-header .navbar {
-        background-color: #cce7e8 !important;
-    }
-    .main-footer {
-        background-color: #cce7e8 !important;
-    }
     .nav-link.active {
         font-weight: bold;
     }
