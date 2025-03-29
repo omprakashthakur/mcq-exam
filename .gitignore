@@ -1,0 +1,22 @@
+# PHP error logs
+php_errors.log
+
+# Environment files
+.env
+.env.*
+
+# IDE files
+.idea/
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Vendor dependencies
+/vendor/
+
+# Backup files
+*.bak
+*.swp
+*~
