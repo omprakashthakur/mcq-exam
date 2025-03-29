@@ -11,6 +11,7 @@
     </footer>
 </div>
 
+<!-- Scripts -->
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Bootstrap 5 Bundle with Popper -->
@@ -20,73 +21,42 @@
 <!-- Custom Scripts -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Bootstrap 5 tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
+    // Initialize all dropdowns
+    const dropdowns = document.querySelectorAll('.dropdown-toggle');
+    dropdowns.forEach(dropdown => {
+        new bootstrap.Dropdown(dropdown, {
+            boundary: 'window'
+        });
     });
 
-    // Initialize AdminLTE pushmenu
+    // Initialize tooltips
+    const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltips.forEach(tooltip => {
+        new bootstrap.Tooltip(tooltip);
+    });
+
+    // Initialize AdminLTE sidebar
     const pushmenuBtn = document.querySelector('[data-widget="pushmenu"]');
-    const body = document.querySelector('body');
-    
     if (pushmenuBtn) {
         pushmenuBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            body.classList.toggle('sidebar-collapse');
-            body.classList.toggle('sidebar-open');
-            localStorage.setItem('sidebar-state', body.classList.contains('sidebar-collapse'));
+            document.body.classList.toggle('sidebar-collapse');
+            localStorage.setItem('sidebar-state', document.body.classList.contains('sidebar-collapse'));
         });
     }
 
-    // Restore sidebar state from localStorage
-    const sidebarState = localStorage.getItem('sidebar-state');
-    if (sidebarState === 'true') {
-        body.classList.add('sidebar-collapse');
+    // Restore sidebar state
+    if (localStorage.getItem('sidebar-state') === 'true') {
+        document.body.classList.add('sidebar-collapse');
     }
-
-    // Auto collapse sidebar on mobile
-    function handleResize() {
-        if (window.innerWidth <= 768) {
-            body.classList.add('sidebar-collapse');
-        }
-    }
-
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Check on initial load
 
     // Auto-hide alerts after 5 seconds
-    setTimeout(function() {
-        var alerts = document.querySelectorAll('.alert');
-        alerts.forEach(function(alert) {
-            var bsAlert = new bootstrap.Alert(alert);
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            const bsAlert = new bootstrap.Alert(alert);
             bsAlert.close();
-        });
-    }, 5000);
-
-    // Initialize any modals
-    var modalTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="modal"]'));
-    modalTriggerList.forEach(function(modalTriggerEl) {
-        var modalId = modalTriggerEl.getAttribute('data-bs-target');
-        var modalElement = document.querySelector(modalId);
-        if (modalElement) {
-            var modal = new bootstrap.Modal(modalElement);
-            modalTriggerEl.addEventListener('click', function() {
-                modal.show();
-            });
-        }
-    });
-
-    // Sidebar toggle
-    document.getElementById('sidebarCollapse')?.addEventListener('click', function() {
-        document.getElementById('sidebar').classList.toggle('active');
-    });
-    
-    // Auto-hide sidebar on mobile when clicking content area
-    document.getElementById('content')?.addEventListener('click', function() {
-        if (window.innerWidth <= 768) {
-            document.getElementById('sidebar')?.classList.remove('active');
-        }
+        }, 5000);
     });
 });
 </script>

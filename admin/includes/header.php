@@ -24,15 +24,6 @@ if (!isset($pageTitle)) {
     <!-- AdminLTE Theme style -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
     
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- AdminLTE App -->
-    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
-    
     <!-- Custom styles -->
     <style>
     .accordion-button:not(.collapsed)::after {
@@ -77,6 +68,30 @@ if (!isset($pageTitle)) {
     .ck-editor__editable {
         min-height: 200px;
     }
+    .nav-link .fas.fa-user-circle {
+        font-size: 1.2rem;
+        margin-right: 0.5rem;
+    }
+    .dropdown-menu {
+        border: 0;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    .dropdown-item {
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+    }
+    .dropdown-item .fas {
+        width: 1.25rem;
+        margin-right: 0.5rem;
+    }
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+    }
+    .dropdown-item.active {
+        background-color: #007bff;
+        color: white;
+    }
     /* Fix AdminLTE + Bootstrap 5 compatibility issues */
     .card-title {
         margin-bottom: 0;
@@ -86,6 +101,20 @@ if (!isset($pageTitle)) {
     }
     .modal-header .btn-close {
         margin: -0.5rem -0.5rem -0.5rem auto;
+    }
+    .navbar-nav .nav-link {
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .navbar-nav .dropdown-menu {
+        margin-top: 0.5rem;
+        right: 0;
+        left: auto;
+    }
+    .navbar .fa-user-circle {
+        font-size: 1.25rem;
     }
     </style>
 </head>
@@ -103,10 +132,24 @@ if (!isset($pageTitle)) {
 
         <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="../auth/logout.php">
-                    <i class="fas fa-sign-out-alt"></i> Logout
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user-circle mr-2"></i> 
+                    <?php echo htmlspecialchars($_SESSION['username'] ?? 'Administrator'); ?>
                 </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li>
+                        <a class="dropdown-item" href="view_admin.php?id=<?php echo $_SESSION['user_id']; ?>">
+                            <i class="fas fa-user fa-fw"></i> My Profile
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <a class="dropdown-item" href="../auth/logout.php">
+                            <i class="fas fa-sign-out-alt fa-fw"></i> Logout
+                        </a>
+                    </li>
+                </ul>
             </li>
         </ul>
     </nav>
