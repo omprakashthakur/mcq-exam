@@ -23,18 +23,57 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $items_per_page = 10;
 $offset = ($page - 1) * $items_per_page;
 
+// Additional query conditions based on filters
+$where_conditions = [];
+$params = [];
+
+if (isset($_GET['status']) && $_GET['status'] !== '') {
+    $where_conditions[] = "pass_fail = ?";
+    $params[] = $_GET['status'];
+}
+
+if (isset($_GET['booking_status']) && $_GET['booking_status'] !== '') {
+    $where_conditions[] = "booking_status = ?";
+    $params[] = $_GET['booking_status'];
+}
+
+if (isset($_GET['type']) && $_GET['type'] !== '') {
+    switch ($_GET['type']) {
+        case 'apprentice':
+            $where_conditions[] = "apprentice = 1";
+            break;
+        case 'college':
+            $where_conditions[] = "college = 1";
+            break;
+    }
+}
+
+if (isset($_GET['search']) && $_GET['search'] !== '') {
+    $search_term = '%' . $_GET['search'] . '%';
+    $where_conditions[] = "(first_name LIKE ? OR last_name LIKE ? OR student_code LIKE ? OR aws_email LIKE ? OR examination_center LIKE ?)";
+    $params = array_merge($params, [$search_term, $search_term, $search_term, $search_term, $search_term]);
+}
+
+$where_clause = !empty($where_conditions) ? "WHERE " . implode(" AND ", $where_conditions) : "";
+
+// Get students with filters
 $stmt = $pdo->prepare("
     SELECT cs.*, u.username, u.email 
     FROM certified_students cs
     LEFT JOIN users u ON cs.user_id = u.id
+    $where_clause
     ORDER BY cs.exam_date DESC, cs.created_at DESC
     LIMIT ? OFFSET ?
 ");
-$stmt->execute([$items_per_page, $offset]);
+
+$params = array_merge($params, [$items_per_page, $offset]);
+$stmt->execute($params);
 $students = $stmt->fetchAll();
 
-// Get total count for pagination
-$stmt = $pdo->query("SELECT COUNT(*) FROM certified_students");
+// Get total count with filters
+$count_sql = "SELECT COUNT(*) FROM certified_students cs $where_clause";
+$stmt = $pdo->prepare($count_sql);
+$stmt->execute(array_slice($params, 0, -2)); // Remove limit/offset from params
 $total_items = $stmt->fetchColumn();
 $total_pages = ceil($total_items / $items_per_page);
 
@@ -108,6 +147,51 @@ include 'includes/header.php';
                         <i class="fas fa-users"></i>
                     </div>
                 </div>
+            </div>
+        </div>
+        
+        <!-- Filter Section -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="GET" class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-select" name="status">
+                            <option value="">All</option>
+                            <option value="pass" <?php echo isset($_GET['status']) && $_GET['status'] === 'pass' ? 'selected' : ''; ?>>Pass</option>
+                            <option value="fail" <?php echo isset($_GET['status']) && $_GET['status'] === 'fail' ? 'selected' : ''; ?>>Fail</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Booking Status</label>
+                        <select class="form-select" name="booking_status">
+                            <option value="">All</option>
+                            <option value="pending" <?php echo isset($_GET['booking_status']) && $_GET['booking_status'] === 'pending' ? 'selected' : ''; ?>>Pending</option>
+                            <option value="confirmed" <?php echo isset($_GET['booking_status']) && $_GET['booking_status'] === 'confirmed' ? 'selected' : ''; ?>>Confirmed</option>
+                            <option value="cancelled" <?php echo isset($_GET['booking_status']) && $_GET['booking_status'] === 'cancelled' ? 'selected' : ''; ?>>Cancelled</option>
+                            <option value="rescheduled" <?php echo isset($_GET['booking_status']) && $_GET['booking_status'] === 'rescheduled' ? 'selected' : ''; ?>>Rescheduled</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Type</label>
+                        <select class="form-select" name="type">
+                            <option value="">All</option>
+                            <option value="apprentice" <?php echo isset($_GET['type']) && $_GET['type'] === 'apprentice' ? 'selected' : ''; ?>>Apprentice</option>
+                            <option value="college" <?php echo isset($_GET['type']) && $_GET['type'] === 'college' ? 'selected' : ''; ?>>College</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Search</label>
+                        <input type="text" class="form-control" name="search" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" placeholder="Search...">
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Apply Filters</button>
+                        <a href="manage_certified_students.php" class="btn btn-secondary">Clear Filters</a>
+                        <button type="button" class="btn btn-success float-end" onclick="exportToExcel()">
+                            <i class="fas fa-file-excel"></i> Export to Excel
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -390,6 +474,18 @@ function togglePassword(inputId) {
         icon.classList.remove('fa-eye-slash');
         icon.classList.add('fa-eye');
     }
+}
+
+function exportToExcel() {
+    // Get current filters
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status') || '';
+    const bookingStatus = urlParams.get('booking_status') || '';
+    const type = urlParams.get('type') || '';
+    const search = urlParams.get('search') || '';
+
+    // Redirect to export script with filters
+    window.location.href = `export_certified_students.php?status=${status}&booking_status=${bookingStatus}&type=${type}&search=${search}`;
 }
 </script>
 <?php include 'includes/footer.php'; ?>

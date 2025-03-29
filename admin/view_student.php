@@ -7,6 +7,17 @@ require_once '../config/database.php';
 require_admin();
 
 $student_id = $_GET['id'] ?? 0;
+$items_per_page = 4;
+
+// Get current page numbers for each section
+$current_page_access = isset($_GET['page_access']) ? (int)$_GET['page_access'] : 1;
+$current_page_requests = isset($_GET['page_requests']) ? (int)$_GET['page_requests'] : 1;
+$current_page_history = isset($_GET['page_history']) ? (int)$_GET['page_history'] : 1;
+
+// Calculate offsets
+$offset_access = ($current_page_access - 1) * $items_per_page;
+$offset_requests = ($current_page_requests - 1) * $items_per_page;
+$offset_history = ($current_page_history - 1) * $items_per_page;
 
 // Get student details
 $stmt = $pdo->prepare("
@@ -24,18 +35,50 @@ if (!$student) {
     exit();
 }
 
-// Get exam access history
+// Get total counts for pagination
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM exam_access WHERE user_id = ?");
+$stmt->execute([$student_id]);
+$total_access = $stmt->fetchColumn();
+
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM exam_requests WHERE user_id = ?");
+$stmt->execute([$student_id]);
+$total_requests = $stmt->fetchColumn();
+
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM exam_attempts WHERE user_id = ?");
+$stmt->execute([$student_id]);
+$total_attempts = $stmt->fetchColumn();
+
+// Calculate total pages
+$total_pages_access = ceil($total_access / $items_per_page);
+$total_pages_requests = ceil($total_requests / $items_per_page);
+$total_pages_history = ceil($total_attempts / $items_per_page);
+
+// Get exam access history with pagination
 $stmt = $pdo->prepare("
     SELECT ea.*, e.title as exam_title, e.duration_minutes
     FROM exam_access ea
     JOIN exam_sets e ON ea.exam_set_id = e.id
     WHERE ea.user_id = ?
     ORDER BY ea.created_at DESC
+    LIMIT ? OFFSET ?
 ");
-$stmt->execute([$student_id]);
+$stmt->execute([$student_id, $items_per_page, $offset_access]);
 $exam_access = $stmt->fetchAll();
 
-// Get exam attempts
+// Get exam requests with pagination
+$stmt = $pdo->prepare("
+    SELECT er.*, e.title as exam_title, u.username as reviewed_by_name
+    FROM exam_requests er
+    JOIN exam_sets e ON er.exam_set_id = e.id
+    LEFT JOIN users u ON er.reviewed_by = u.id
+    WHERE er.user_id = ?
+    ORDER BY er.request_date DESC
+    LIMIT ? OFFSET ?
+");
+$stmt->execute([$student_id, $items_per_page, $offset_requests]);
+$exam_requests = $stmt->fetchAll();
+
+// Get exam attempts with pagination
 $stmt = $pdo->prepare("
     SELECT ea.*, e.title as exam_title,
            COUNT(DISTINCT q.id) as total_questions,
@@ -47,21 +90,10 @@ $stmt = $pdo->prepare("
     WHERE ea.user_id = ?
     GROUP BY ea.id
     ORDER BY ea.start_time DESC
+    LIMIT ? OFFSET ?
 ");
-$stmt->execute([$student_id]);
+$stmt->execute([$student_id, $items_per_page, $offset_history]);
 $exam_attempts = $stmt->fetchAll();
-
-// Get exam requests
-$stmt = $pdo->prepare("
-    SELECT er.*, e.title as exam_title, u.username as reviewed_by_name
-    FROM exam_requests er
-    JOIN exam_sets e ON er.exam_set_id = e.id
-    LEFT JOIN users u ON er.reviewed_by = u.id
-    WHERE er.user_id = ?
-    ORDER BY er.request_date DESC
-");
-$stmt->execute([$student_id]);
-$exam_requests = $stmt->fetchAll();
 
 // Get available exams for assignment
 $stmt = $pdo->prepare("
@@ -128,7 +160,7 @@ include 'includes/header.php';
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach (array_slice($exam_access, 0, 5) as $access): ?>
+                                    <?php foreach ($exam_access as $access): ?>
                                         <tr>
                                             <td><?php echo htmlspecialchars($access['exam_title']); ?></td>
                                             <td>
@@ -143,6 +175,24 @@ include 'includes/header.php';
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <?php if ($total_pages_access > 1): ?>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div class="text-muted small">
+                                    Showing <?php echo $offset_access + 1; ?>-<?php echo min($offset_access + $items_per_page, $total_access); ?> of <?php echo $total_access; ?>
+                                </div>
+                                <nav aria-label="Exam access pagination">
+                                    <ul class="pagination pagination-sm mb-0">
+                                        <?php for ($i = 1; $i <= $total_pages_access; $i++): ?>
+                                            <li class="page-item <?php echo ($i == $current_page_access) ? 'active' : ''; ?>">
+                                                <a class="page-link" href="?id=<?php echo $student_id; ?>&page_access=<?php echo $i; ?>&page_requests=<?php echo $current_page_requests; ?>&page_history=<?php echo $current_page_history; ?>">
+                                                    <?php echo $i; ?>
+                                                </a>
+                                            </li>
+                                        <?php endfor; ?>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -228,6 +278,24 @@ include 'includes/header.php';
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <?php if ($total_pages_requests > 1): ?>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div class="text-muted small">
+                            Showing <?php echo $offset_requests + 1; ?>-<?php echo min($offset_requests + $items_per_page, $total_requests); ?> of <?php echo $total_requests; ?>
+                        </div>
+                        <nav aria-label="Exam requests pagination">
+                            <ul class="pagination pagination-sm mb-0">
+                                <?php for ($i = 1; $i <= $total_pages_requests; $i++): ?>
+                                    <li class="page-item <?php echo ($i == $current_page_requests) ? 'active' : ''; ?>">
+                                        <a class="page-link" href="?id=<?php echo $student_id; ?>&page_access=<?php echo $current_page_access; ?>&page_requests=<?php echo $i; ?>&page_history=<?php echo $current_page_history; ?>">
+                                            <?php echo $i; ?>
+                                        </a>
+                                    </li>
+                                <?php endfor; ?>
+                            </ul>
+                        </nav>
+                    </div>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
         </div>
@@ -283,6 +351,24 @@ include 'includes/header.php';
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <?php if ($total_pages_history > 1): ?>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div class="text-muted small">
+                            Showing <?php echo $offset_history + 1; ?>-<?php echo min($offset_history + $items_per_page, $total_attempts); ?> of <?php echo $total_attempts; ?>
+                        </div>
+                        <nav aria-label="Exam history pagination">
+                            <ul class="pagination pagination-sm mb-0">
+                                <?php for ($i = 1; $i <= $total_pages_history; $i++): ?>
+                                    <li class="page-item <?php echo ($i == $current_page_history) ? 'active' : ''; ?>">
+                                        <a class="page-link" href="?id=<?php echo $student_id; ?>&page_access=<?php echo $current_page_access; ?>&page_requests=<?php echo $current_page_requests; ?>&page_history=<?php echo $i; ?>">
+                                            <?php echo $i; ?>
+                                        </a>
+                                    </li>
+                                <?php endfor; ?>
+                            </ul>
+                        </nav>
+                    </div>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
         </div>

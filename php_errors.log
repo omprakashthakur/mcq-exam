@@ -11531,3 +11531,757 @@ Stack trace:
 [29-Mar-2025 09:52:13 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
 2025-03-29 09:52:13 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
 [29-Mar-2025 09:52:13 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:53:53 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 09:53:53 Europe/Berlin] Database connection successful
+2025-03-29 09:53:53 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 09:53:53 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 09:53:53 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:53:53 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:53:54 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 09:53:54 Europe/Berlin] Database connection successful
+2025-03-29 09:53:54 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 09:53:54 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 09:53:54 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:53:54 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:53:56 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 09:53:56 Europe/Berlin] Database connection successful
+2025-03-29 09:53:56 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 09:53:56 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 09:53:56 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:53:56 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:54:05 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 09:54:05 Europe/Berlin] Database connection successful
+2025-03-29 09:54:05 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 09:54:05 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 09:54:05 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:54:05 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:54:10 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 09:54:10 Europe/Berlin] Database connection successful
+2025-03-29 09:54:10 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 09:54:10 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 09:54:10 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:54:10 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:54:11 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 09:54:11 Europe/Berlin] Database connection successful
+2025-03-29 09:54:11 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 09:54:11 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 09:54:11 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:54:11 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:55:59 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 09:55:59 Europe/Berlin] Database connection successful
+[29-Mar-2025 09:56:43 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 09:56:43 Europe/Berlin] Database connection successful
+2025-03-29 09:56:43 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 09:56:43 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 09:56:43 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:56:43 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:57:41 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 09:57:41 Europe/Berlin] Database connection successful
+2025-03-29 09:57:41 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 09:57:41 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 09:57:41 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:57:41 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:57:49 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 09:57:49 Europe/Berlin] Database connection successful
+2025-03-29 09:57:49 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 09:57:49 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 09:57:49 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:57:49 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 09:59:52 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 09:59:52 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:01:28 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:01:28 Europe/Berlin] Database connection successful
+2025-03-29 10:01:28 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:01:28 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:01:28 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:01:28 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:07:42 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:07:42 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:39:49 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:39:49 Europe/Berlin] Database connection successful
+2025-03-29 10:39:50 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:39:50 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:39:50 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:39:50 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:40:03 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:40:03 Europe/Berlin] Database connection successful
+2025-03-29 10:40:03 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:40:03 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:40:03 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:40:03 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:40:13 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:40:13 Europe/Berlin] Database connection successful
+2025-03-29 10:40:13 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:40:13 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:40:13 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:40:13 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:44:01 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:44:01 Europe/Berlin] Database connection successful
+2025-03-29 10:44:01 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:44:01 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:44:01 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:44:01 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:48:13 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:48:13 Europe/Berlin] Database connection successful
+2025-03-29 10:48:13 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:48:13 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:48:13 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:48:13 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:50:03 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:50:03 Europe/Berlin] Database connection successful
+2025-03-29 10:50:03 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:50:03 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:50:03 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:50:03 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:53:43 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:53:43 Europe/Berlin] Database connection successful
+2025-03-29 10:53:43 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:53:43 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:53:43 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:53:43 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:53:44 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:53:44 Europe/Berlin] Database connection successful
+2025-03-29 10:53:44 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:53:44 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:53:44 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:53:44 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:53:45 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:53:45 Europe/Berlin] Database connection successful
+2025-03-29 10:53:45 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:53:45 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:53:45 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:53:45 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:53:46 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:53:46 Europe/Berlin] Database connection successful
+2025-03-29 10:53:46 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:53:46 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:53:46 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:53:46 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:53:47 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:53:47 Europe/Berlin] Database connection successful
+2025-03-29 10:53:47 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:53:47 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:53:47 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:53:47 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:53:48 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:53:48 Europe/Berlin] Database connection successful
+2025-03-29 10:53:48 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:53:48 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:53:48 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:53:48 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:53:49 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:53:49 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:53:50 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:53:50 Europe/Berlin] Database connection successful
+2025-03-29 10:53:50 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:53:50 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:53:50 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:53:50 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:55:02 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:55:02 Europe/Berlin] Database connection successful
+2025-03-29 10:55:02 - Error (2): Undefined array key "start_date" in C:\xampp\htdocs\mcq-exam\admin\assign_exam.php on line 37
+[29-Mar-2025 10:55:02 Europe/Berlin] PHP Warning:  Undefined array key "start_date" in C:\xampp\htdocs\mcq-exam\admin\assign_exam.php on line 37
+2025-03-29 10:55:02 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:55:02 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:55:02 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:55:02 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:55:42 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:55:42 Europe/Berlin] Database connection successful
+2025-03-29 10:55:42 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:55:42 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:55:42 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:55:42 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:55:45 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:55:45 Europe/Berlin] Database connection successful
+2025-03-29 10:55:45 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:55:45 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:55:45 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:55:45 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:55:49 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:55:49 Europe/Berlin] Database connection successful
+2025-03-29 10:55:49 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:55:49 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:55:49 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:55:49 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:55:58 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:55:58 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:55:58 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:55:58 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:55:58 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:55:58 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:56:04 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:56:04 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:56:04 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:56:04 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:56:04 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:56:04 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:56:10 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:56:10 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:56:14 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:56:14 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:56:41 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:56:41 Europe/Berlin] Database connection successful
+2025-03-29 10:56:41 - Error (8192): Constant FILTER_SANITIZE_STRING is deprecated in C:\xampp\htdocs\mcq-exam\student\request_exam.php on line 12
+[29-Mar-2025 10:56:41 Europe/Berlin] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in C:\xampp\htdocs\mcq-exam\student\request_exam.php on line 12
+2025-03-29 10:56:41 - Error (8192): Constant FILTER_SANITIZE_STRING is deprecated in C:\xampp\htdocs\mcq-exam\student\request_exam.php on line 14
+[29-Mar-2025 10:56:41 Europe/Berlin] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in C:\xampp\htdocs\mcq-exam\student\request_exam.php on line 14
+[29-Mar-2025 10:56:41 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:56:41 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:56:49 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:56:49 Europe/Berlin] Database connection successful
+2025-03-29 10:56:49 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:56:49 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:56:49 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:56:49 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:56:51 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:56:51 Europe/Berlin] Database connection successful
+2025-03-29 10:56:51 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:56:51 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:56:51 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:56:51 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:56:59 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:56:59 Europe/Berlin] Database connection successful
+2025-03-29 10:56:59 - Error (8192): Constant FILTER_SANITIZE_STRING is deprecated in C:\xampp\htdocs\mcq-exam\admin\manage_requests.php on line 12
+[29-Mar-2025 10:56:59 Europe/Berlin] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in C:\xampp\htdocs\mcq-exam\admin\manage_requests.php on line 12
+[29-Mar-2025 10:56:59 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:56:59 Europe/Berlin] Database connection successful
+2025-03-29 10:56:59 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:56:59 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:56:59 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:56:59 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:57:07 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:57:07 Europe/Berlin] Database connection successful
+2025-03-29 10:57:07 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 10:57:07 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 10:57:07 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:57:07 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 10:59:21 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:59:21 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:59:26 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:59:26 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:59:26 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:59:26 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:59:26 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:59:26 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:59:34 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:59:34 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:59:34 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:59:34 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:59:34 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:59:34 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:59:40 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:59:40 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:59:50 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:59:50 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:59:53 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:59:53 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:59:53 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:59:53 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:59:53 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:59:53 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:59:58 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:59:58 Europe/Berlin] Database connection successful
+[29-Mar-2025 10:59:59 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 10:59:59 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:00:01 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:00:01 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:00:03 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:00:03 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:00:31 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:00:31 Europe/Berlin] Database connection successful
+2025-03-29 11:00:31 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:00:31 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:00:31 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:00:31 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:00:34 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:00:34 Europe/Berlin] Database connection successful
+2025-03-29 11:00:34 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:00:34 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:00:34 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:00:34 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:00:36 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:00:36 Europe/Berlin] Database connection successful
+2025-03-29 11:00:36 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:00:36 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:00:36 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:00:36 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:00:38 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:00:38 Europe/Berlin] Database connection successful
+2025-03-29 11:00:38 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:00:38 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:00:38 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:00:38 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:00:46 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:00:46 Europe/Berlin] Database connection successful
+2025-03-29 11:00:46 - Error (2): Undefined array key "start_date" in C:\xampp\htdocs\mcq-exam\admin\assign_exam.php on line 37
+[29-Mar-2025 11:00:46 Europe/Berlin] PHP Warning:  Undefined array key "start_date" in C:\xampp\htdocs\mcq-exam\admin\assign_exam.php on line 37
+2025-03-29 11:00:46 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:00:46 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:00:46 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:00:46 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:01:44 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:01:44 Europe/Berlin] Database connection successful
+2025-03-29 11:01:44 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:01:44 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:01:44 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:01:44 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:04:36 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:04:36 Europe/Berlin] Database connection successful
+2025-03-29 11:04:36 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:04:36 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:04:36 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:04:36 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:04:52 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:04:52 Europe/Berlin] Database connection successful
+2025-03-29 11:04:52 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:04:52 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:04:52 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:04:52 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:10 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:05:10 Europe/Berlin] Database connection successful
+2025-03-29 11:05:10 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:05:10 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:05:10 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:10 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:16 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:05:16 Europe/Berlin] Database connection successful
+2025-03-29 11:05:16 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:05:16 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:05:16 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:16 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:33 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:05:33 Europe/Berlin] Database connection successful
+2025-03-29 11:05:33 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:05:33 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:05:33 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:33 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:35 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:05:35 Europe/Berlin] Database connection successful
+2025-03-29 11:05:35 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:05:35 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:05:35 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:35 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:38 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:05:38 Europe/Berlin] Database connection successful
+2025-03-29 11:05:38 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:05:38 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:05:38 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:38 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:40 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:05:40 Europe/Berlin] Database connection successful
+2025-03-29 11:05:40 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:05:40 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:05:40 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:40 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:42 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:05:42 Europe/Berlin] Database connection successful
+2025-03-29 11:05:42 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:05:42 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:05:42 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:42 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:48 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:05:48 Europe/Berlin] Database connection successful
+2025-03-29 11:05:48 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:05:48 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:05:48 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:48 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:49 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:05:49 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:05:53 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:05:53 Europe/Berlin] Database connection successful
+2025-03-29 11:05:53 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:05:53 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:05:53 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:53 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:55 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:05:55 Europe/Berlin] Database connection successful
+2025-03-29 11:05:55 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:05:55 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:05:55 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:05:55 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:00 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:06:00 Europe/Berlin] Database connection successful
+2025-03-29 11:06:00 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:06:00 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:06:00 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:00 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:09 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:06:09 Europe/Berlin] Database connection successful
+2025-03-29 11:06:09 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:06:09 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:06:09 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:09 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:12 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:06:12 Europe/Berlin] Database connection successful
+2025-03-29 11:06:12 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:06:12 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:06:12 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:12 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:16 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:06:16 Europe/Berlin] Database connection successful
+2025-03-29 11:06:16 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:06:16 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:06:16 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:16 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:17 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:06:17 Europe/Berlin] Database connection successful
+2025-03-29 11:06:17 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:06:17 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:06:17 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:17 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:26 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:06:26 Europe/Berlin] Database connection successful
+2025-03-29 11:06:26 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:06:26 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:06:26 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:26 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:29 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:06:29 Europe/Berlin] Database connection successful
+2025-03-29 11:06:29 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:06:29 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:06:29 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:29 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:57 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:06:57 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:06:57 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:06:57 Europe/Berlin] Database connection successful
+2025-03-29 11:06:57 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:06:57 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:06:57 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:06:57 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:07:13 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:07:13 Europe/Berlin] Database connection successful
+2025-03-29 11:07:13 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:07:13 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:07:13 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:07:13 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:07:17 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:07:17 Europe/Berlin] Database connection successful
+2025-03-29 11:07:17 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:07:17 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:07:17 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:07:17 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:09:11 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:09:11 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:09:11 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:09:11 Europe/Berlin] Database connection successful
+2025-03-29 11:09:11 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:09:11 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:09:11 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:09:11 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:09:19 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:09:19 Europe/Berlin] Database connection successful
+2025-03-29 11:09:19 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:09:19 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:09:19 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:09:19 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:13:56 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:13:56 Europe/Berlin] Database connection successful
+2025-03-29 11:13:56 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:13:56 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:13:56 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:13:56 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:04 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:14:04 Europe/Berlin] Database connection successful
+2025-03-29 11:14:04 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:14:04 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:14:04 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:04 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:13 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:14:13 Europe/Berlin] Database connection successful
+2025-03-29 11:14:13 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:14:13 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:14:13 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:13 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:17 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:14:17 Europe/Berlin] Database connection successful
+2025-03-29 11:14:17 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:14:17 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:14:17 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:17 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:20 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:14:20 Europe/Berlin] Database connection successful
+2025-03-29 11:14:20 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:14:20 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:14:20 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:20 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:35 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:14:35 Europe/Berlin] Database connection successful
+2025-03-29 11:14:35 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:14:35 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:14:35 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:35 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:39 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:14:39 Europe/Berlin] Database connection successful
+2025-03-29 11:14:39 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:14:39 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:14:39 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:39 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:43 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:14:43 Europe/Berlin] Database connection successful
+2025-03-29 11:14:43 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:14:43 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:14:43 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:43 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:51 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:14:51 Europe/Berlin] Database connection successful
+2025-03-29 11:14:51 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:14:51 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:14:51 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:14:51 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:15:09 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:15:09 Europe/Berlin] Database connection successful
+2025-03-29 11:15:09 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:15:09 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:15:09 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:15:09 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:15:27 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:15:27 Europe/Berlin] Database connection successful
+2025-03-29 11:15:27 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:15:27 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:15:27 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:15:27 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:15:38 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:15:38 Europe/Berlin] Database connection successful
+2025-03-29 11:15:38 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:15:38 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:15:38 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:15:38 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:16:13 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:16:13 Europe/Berlin] Database connection successful
+2025-03-29 11:16:13 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:16:13 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:16:13 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:16:13 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:16:19 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:16:19 Europe/Berlin] Database connection successful
+2025-03-29 11:16:19 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:16:19 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:16:19 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:16:19 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:07 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:07 Europe/Berlin] Database connection successful
+2025-03-29 11:18:07 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:07 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:07 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:07 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:09 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:09 Europe/Berlin] Database connection successful
+2025-03-29 11:18:09 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:09 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:09 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:09 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:10 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:10 Europe/Berlin] Database connection successful
+2025-03-29 11:18:10 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:10 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:10 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:10 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:16 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:16 Europe/Berlin] Database connection successful
+2025-03-29 11:18:16 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:16 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:16 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:16 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:19 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:19 Europe/Berlin] Database connection successful
+2025-03-29 11:18:19 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:19 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:19 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:19 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:21 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:21 Europe/Berlin] Database connection successful
+2025-03-29 11:18:21 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:21 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:21 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:21 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:24 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:24 Europe/Berlin] Database connection successful
+2025-03-29 11:18:24 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:24 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:24 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:24 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:27 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:27 Europe/Berlin] Database connection successful
+2025-03-29 11:18:27 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:27 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:27 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:27 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:29 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:29 Europe/Berlin] Database connection successful
+2025-03-29 11:18:29 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:29 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:29 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:29 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:30 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:30 Europe/Berlin] Database connection successful
+2025-03-29 11:18:30 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:30 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:30 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:30 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:37 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:37 Europe/Berlin] Database connection successful
+2025-03-29 11:18:37 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:37 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:37 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:37 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:42 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:42 Europe/Berlin] Database connection successful
+2025-03-29 11:18:42 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:42 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:42 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:42 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:43 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:43 Europe/Berlin] Database connection successful
+2025-03-29 11:18:43 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:43 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:43 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:43 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:44 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:44 Europe/Berlin] Database connection successful
+2025-03-29 11:18:44 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:44 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:44 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:44 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:45 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:45 Europe/Berlin] Database connection successful
+2025-03-29 11:18:45 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:45 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:45 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:45 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:49 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:49 Europe/Berlin] Database connection successful
+2025-03-29 11:18:49 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:49 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:49 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:49 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:50 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:50 Europe/Berlin] Database connection successful
+2025-03-29 11:18:50 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:50 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:50 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:50 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:52 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:52 Europe/Berlin] Database connection successful
+2025-03-29 11:18:52 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:52 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:52 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:52 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:59 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:18:59 Europe/Berlin] Database connection successful
+2025-03-29 11:18:59 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:18:59 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:18:59 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:18:59 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:19:00 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:19:00 Europe/Berlin] Database connection successful
+2025-03-29 11:19:00 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:19:00 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:19:00 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:19:00 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:11 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:23:11 Europe/Berlin] Database connection successful
+2025-03-29 11:23:11 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:23:11 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:23:11 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:11 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:11 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:23:11 Europe/Berlin] Database connection successful
+2025-03-29 11:23:11 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:23:11 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:23:11 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:11 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:12 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:23:12 Europe/Berlin] Database connection successful
+2025-03-29 11:23:12 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:23:12 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:23:12 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:12 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:12 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:23:12 Europe/Berlin] Database connection successful
+2025-03-29 11:23:12 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:23:12 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:23:12 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:12 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:13 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:23:13 Europe/Berlin] Database connection successful
+2025-03-29 11:23:13 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:23:13 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:23:13 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:13 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:14 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:23:14 Europe/Berlin] Database connection successful
+2025-03-29 11:23:14 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:23:14 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:23:14 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:14 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:14 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:23:14 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:23:15 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:23:15 Europe/Berlin] Database connection successful
+2025-03-29 11:23:15 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:23:15 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:23:15 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:15 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:23:27 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:23:27 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:23:40 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:23:40 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:23:48 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:23:48 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:24:02 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:24:02 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:24:06 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:24:06 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:24:09 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:24:09 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:24:15 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:24:15 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:24:17 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:24:17 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:24:21 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:24:21 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:27:02 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:27:02 Europe/Berlin] Database connection successful
+2025-03-29 11:27:02 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:27:02 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:27:02 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:27:02 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:27:09 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:27:09 Europe/Berlin] Database connection successful
+[29-Mar-2025 11:27:19 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:27:19 Europe/Berlin] Database connection successful
+2025-03-29 11:27:19 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:27:19 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:27:19 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:27:19 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:27:20 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:27:20 Europe/Berlin] Database connection successful
+2025-03-29 11:27:20 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:27:20 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:27:20 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:27:20 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:27:24 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:27:24 Europe/Berlin] Database connection successful
+2025-03-29 11:27:24 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:27:24 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:27:24 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:27:24 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:27:25 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:27:25 Europe/Berlin] Database connection successful
+2025-03-29 11:27:25 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:27:25 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:27:25 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:27:25 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:27:26 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:27:26 Europe/Berlin] Database connection successful
+2025-03-29 11:27:26 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:27:26 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:27:26 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:27:26 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:27:27 Europe/Berlin] Attempting database connection...
+[29-Mar-2025 11:27:27 Europe/Berlin] Database connection successful
+2025-03-29 11:27:27 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+[29-Mar-2025 11:27:27 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 184
+2025-03-29 11:27:27 - Error (2): Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190
+[29-Mar-2025 11:27:27 Europe/Berlin] PHP Warning:  Undefined variable $current_page in C:\xampp\htdocs\mcq-exam\admin\includes\header.php on line 190

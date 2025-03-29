@@ -33,9 +33,9 @@ if (!$student) {
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        $exam_id = intval($_POST['exam_id']);
-        $start_date = $_POST['start_date'];
-        $end_date = !empty($_POST['end_date']) ? $_POST['end_date'] : null;
+        $exam_id = isset($_POST['exam_id']) ? intval($_POST['exam_id']) : 0;
+        $start_date = isset($_POST['start_date']) ? $_POST['start_date'] . ' 00:00:00' : '';
+        $end_date = isset($_POST['end_date']) && !empty($_POST['end_date']) ? $_POST['end_date'] . ' 23:59:59' : null;
         
         // Validate required fields
         if (empty($exam_id) || empty($start_date)) {
@@ -251,17 +251,17 @@ include 'includes/header.php';
                             
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="start_date" class="form-label">Start Date & Time</label>
-                                    <input type="datetime-local" class="form-control" id="start_date" 
+                                    <label for="start_date" class="form-label">Start Date</label>
+                                    <input type="date" class="form-control" id="start_date" 
                                            name="start_date" required>
-                                    <div class="invalid-feedback">Please select a start date and time</div>
+                                    <div class="invalid-feedback">Please select a start date</div>
                                 </div>
                             </div>
                             
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="end_date" class="form-label">End Date & Time (Optional)</label>
-                                    <input type="datetime-local" class="form-control" id="end_date" 
+                                    <label for="end_date" class="form-label">End Date (Optional)</label>
+                                    <input type="date" class="form-control" id="end_date" 
                                            name="end_date">
                                     <div class="form-text">Leave blank for no end date</div>
                                 </div>
@@ -296,16 +296,23 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Additional date validation
             const startDate = new Date(document.getElementById('start_date').value);
-            const endDate = document.getElementById('end_date').value 
-                ? new Date(document.getElementById('end_date').value)
-                : null;
+            startDate.setHours(0, 0, 0, 0); // Set time to beginning of day
+            
+            const endDateInput = document.getElementById('end_date').value;
+            const endDate = endDateInput ? new Date(endDateInput) : null;
+            if (endDate) {
+                endDate.setHours(0, 0, 0, 0); // Set time to beginning of day
+            }
+            
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Set time to beginning of day
             
             if (endDate && startDate >= endDate) {
                 event.preventDefault();
                 alert('End date must be after start date');
             }
             
-            if (startDate < new Date()) {
+            if (startDate < today) {
                 event.preventDefault();
                 alert('Start date cannot be in the past');
             }
@@ -314,18 +321,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }, false);
     });
 
-    // Set minimum date for date inputs to now
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
+    // Set minimum date for date inputs to today
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
     
-    const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+    const minDate = `${year}-${month}-${day}`;
     
-    document.getElementById('start_date').min = minDateTime;
-    document.getElementById('end_date').min = minDateTime;
+    document.getElementById('start_date').min = minDate;
+    document.getElementById('end_date').min = minDate;
 });
 </script>
 
