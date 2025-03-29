@@ -93,11 +93,11 @@ $pageTitle = $attempt['title'] . " - Question " . $current_num;
 include '../includes/header.php';
 ?>
 
-<div class="container py-4">
+<div class="container py-1">
     <!-- Timer Display -->
-    <div class="d-flex align-items-start mb-4">
+    <div class="d-flex align-items-start mb-1">
         <div class="exam-progress flex-grow-1">
-            <h5 class="mb-2">Progress</h5>
+            <h3 class="mb-1">Progress</h3>
             <div class="progress">
                 <div class="progress-bar bg-primary" role="progressbar" 
                      style="width: <?php echo ($current_num / $total_questions) * 100; ?>%">
@@ -485,26 +485,26 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .exam-timer {
-    min-width: 280px;
+    min-width: 250px;
 }
 
 .exam-timer .badge {
-    font-size: 1.8rem !important;
-    padding: 1.2rem !important;
-    min-width: 280px;
+    font-size: 1.5rem !important;
+    padding: 1.1rem !important;
+    min-width: 250px;
     display: inline-block;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .exam-timer .badge i {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     margin-right: 1rem;
     vertical-align: middle;
 }
 
 .exam-timer .badge #timeDisplay {
     font-family: monospace;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 .timer-blink {
@@ -518,15 +518,15 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 .progress {
-    height: 2.5rem !important;
+    height: 2.2rem !important;
     border-radius: 1rem;
     background-color: #f8f9fa;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .progress-bar {
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: 1.0rem;
+    font-weight: 400;
     transition: width 0.3s ease;
 }
 </style>
