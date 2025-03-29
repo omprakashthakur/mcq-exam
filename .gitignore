@@ -16,6 +16,8 @@ Thumbs.db
 # Vendor dependencies
 /vendor/
 
+/backups/
+
 # Backup files
 *.bak
 *.swp

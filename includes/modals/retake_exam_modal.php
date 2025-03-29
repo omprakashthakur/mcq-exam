@@ -2,7 +2,8 @@
 <div class="modal fade" id="retakeExamModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="request_retake.php" method="POST">
+            <form action="request_exam.php" method="POST">
+                <input type="hidden" name="request_type" value="retake">
                 <div class="modal-header">
                     <h5 class="modal-title">Request Exam Retake</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -23,8 +24,16 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="retake_reason" class="form-label">Retake Reason</label>
-                        <textarea class="form-control" id="retake_reason" name="retake_reason" 
+                        <label for="preferred_date" class="form-label">Preferred Retake Date</label>
+                        <input type="date" class="form-control" id="preferred_date" name="preferred_date" 
+                               min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" 
+                               max="<?php echo date('Y-m-d', strtotime('+30 days')); ?>" 
+                               required>
+                        <div class="form-text">Select a date between tomorrow and 30 days from now.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="request_reason" class="form-label">Retake Reason</label>
+                        <textarea class="form-control" id="request_reason" name="request_reason" 
                                   rows="3" required 
                                   placeholder="Please explain why you want to retake this exam..."></textarea>
                         <div class="form-text">

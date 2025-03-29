@@ -35,8 +35,21 @@ $remaining_seconds = max(0, $total_seconds - $elapsed_seconds);
 
 // Check if exam time has expired
 if ($remaining_seconds <= 0) {
-    // Auto-submit the exam
-    header('Location: submit_exam.php?attempt_id=' . $attempt_id);
+    // Create a form to auto-submit
+    echo '<!DOCTYPE html>
+    <html>
+    <head>
+        <title>Submitting Exam...</title>
+    </head>
+    <body>
+        <form id="submitForm" action="submit_exam.php" method="POST">
+            <input type="hidden" name="attempt_id" value="'.$attempt_id.'">
+        </form>
+        <script>
+            document.getElementById("submitForm").submit();
+        </script>
+    </body>
+    </html>';
     exit();
 }
 
@@ -280,7 +293,6 @@ document.addEventListener('DOMContentLoaded', function() {
         nextBtn: document.getElementById('nextBtn'),
         submitBtn: document.getElementById('submitExamBtn'),
         answerWarning: document.getElementById('answerWarning'),
-        unansweredWarning: document.getElementById('unansweredWarning'),
         submitForm: document.getElementById('submitExamForm'),
         modal: new bootstrap.Modal(document.getElementById('submitConfirmModal'))
     };
@@ -290,9 +302,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function updateTimer() {
         if (remainingSeconds <= 0) {
-            if (elements.submitForm) {
-                elements.submitForm.submit();
-            }
+            // Create and submit form when time expires
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'submit_exam.php';
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'attempt_id';
+            input.value = '<?php echo $attempt_id; ?>';
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
             return;
         }
 

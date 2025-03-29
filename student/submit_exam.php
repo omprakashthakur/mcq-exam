@@ -6,13 +6,14 @@ require_once '../config/database.php';
 // Require authentication
 require_auth();
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+// Accept both POST and GET for handling auto-submission of expired exams
+if (!in_array($_SERVER['REQUEST_METHOD'], ['POST', 'GET'])) {
     $_SESSION['error'] = 'Invalid request method';
     header('Location: dashboard.php');
     exit();
 }
 
-$attempt_id = filter_input(INPUT_POST, 'attempt_id', FILTER_VALIDATE_INT);
+$attempt_id = $_POST['attempt_id'] ?? $_GET['attempt_id'] ?? 0;
 if (!$attempt_id) {
     $_SESSION['error'] = 'Invalid attempt ID';
     header('Location: dashboard.php');
@@ -55,7 +56,7 @@ try {
     $interval = $start_time->diff($end_time);
     $time_taken = ($interval->days * 24 * 60) + ($interval->h * 60) + $interval->i;
 
-    // Validate exam duration hasn't been exceeded by too much (allow 1-minute grace period)
+    // Log if exam exceeded duration but still process submission
     if ($time_taken > ($attempt['duration_minutes'] + 1)) {
         $overtime = $time_taken - $attempt['duration_minutes'];
         error_log("Warning: Exam attempt {$attempt_id} exceeded duration by {$overtime} minutes");
@@ -114,7 +115,7 @@ try {
         $score
     );
 
-    // Insert both notifications in a single query for better performance
+    // Insert notifications
     $stmt = $pdo->prepare("
         INSERT INTO notifications (user_id, type, message, related_id)
         VALUES 

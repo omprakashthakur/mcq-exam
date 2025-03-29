@@ -11,15 +11,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $request_id = filter_input(INPUT_POST, 'request_id', FILTER_VALIDATE_INT);
         $action = filter_input(INPUT_POST, 'action', FILTER_UNSAFE_RAW);
-        $action = strip_tags(trim($action));
         $remarks = filter_input(INPUT_POST, 'remarks', FILTER_UNSAFE_RAW);
-        $remarks = strip_tags(trim($remarks));
-
+        
         if (!$request_id || !in_array($action, ['approve', 'reject'])) {
             throw new Exception('Invalid request parameters');
         }
 
         $pdo->beginTransaction();
+
+        // Get request details first
+        $stmt = $pdo->prepare("
+            SELECT r.*, e.title as exam_title, u.email 
+            FROM exam_retake_requests r
+            JOIN exam_sets e ON r.exam_set_id = e.id
+            JOIN users u ON r.user_id = u.id
+            WHERE r.id = ? AND r.status = 'pending'
+        ");
+        $stmt->execute([$request_id]);
+        $request = $stmt->fetch();
+
+        if (!$request) {
+            throw new Exception('Retake request not found or already processed');
+        }
 
         // Update request status
         $stmt = $pdo->prepare("
@@ -46,65 +59,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     exam_set_id,
                     access_code,
                     expiry_date,
-                    created_by
-                )
-                SELECT 
-                    r.user_id,
-                    r.exam_set_id,
-                    SUBSTRING(MD5(RAND()), 1, 8),
-                    DATE_ADD(NOW(), INTERVAL 7 DAY),
-                    ?
-                FROM exam_retake_requests r
-                WHERE r.id = ?
+                    created_by,
+                    is_retake
+                ) VALUES (?, ?, ?, DATE_ADD(NOW(), INTERVAL 7 DAY), ?, 1)
             ");
-            $stmt->execute([$_SESSION['user_id'], $request_id]);
-
-            // Send notification to student
-            $stmt = $pdo->prepare("
-                INSERT INTO notifications (
-                    user_id,
-                    type,
-                    message,
-                    related_id
-                )
-                SELECT 
-                    r.user_id,
-                    'retake_approved',
-                    CONCAT('Your retake request for ', e.title, ' has been approved'),
-                    r.exam_set_id
-                FROM exam_retake_requests r
-                JOIN exam_sets e ON r.exam_set_id = e.id
-                WHERE r.id = ?
-            ");
-            $stmt->execute([$request_id]);
-        } else {
-            // Send rejection notification
-            $stmt = $pdo->prepare("
-                INSERT INTO notifications (
-                    user_id,
-                    type,
-                    message,
-                    related_id
-                )
-                SELECT 
-                    r.user_id,
-                    'retake_rejected',
-                    CONCAT('Your retake request for ', e.title, ' has been rejected'),
-                    r.exam_set_id
-                FROM exam_retake_requests r
-                JOIN exam_sets e ON r.exam_set_id = e.id
-                WHERE r.id = ?
-            ");
-            $stmt->execute([$request_id]);
+            $stmt->execute([
+                $request['user_id'],
+                $request['exam_set_id'],
+                strtoupper(bin2hex(random_bytes(4))),
+                $_SESSION['user_id']
+            ]);
         }
+
+        // Send notification to student
+        $stmt = $pdo->prepare("
+            INSERT INTO notifications (
+                user_id,
+                type,
+                message,
+                related_id
+            ) VALUES (?, ?, ?, ?)
+        ");
+        $stmt->execute([
+            $request['user_id'],
+            $action === 'approve' ? 'retake_approved' : 'retake_rejected',
+            $action === 'approve' 
+                ? "Your retake request for {$request['exam_title']} has been approved" 
+                : "Your retake request for {$request['exam_title']} has been rejected: $remarks",
+            $request['exam_set_id']
+        ]);
 
         $pdo->commit();
         $_SESSION['success'] = 'Retake request ' . ($action === 'approve' ? 'approved' : 'rejected') . ' successfully';
+        
     } catch (Exception $e) {
         if ($pdo->inTransaction()) {
             $pdo->rollBack();
         }
-        $_SESSION['error'] = 'Error processing request: ' . $e->getMessage();
+        $_SESSION['error'] = $e->getMessage();
     }
     
     header('Location: manage_retakes.php');
@@ -115,17 +107,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $stmt = $pdo->prepare("
     SELECT 
         r.*,
-        u.username,
         e.title as exam_title,
         COALESCE(sp.full_name, u.username) as student_name,
+        u.email as student_email,
         (SELECT MAX(score) FROM exam_attempts 
          WHERE user_id = r.user_id AND exam_set_id = r.exam_set_id) as best_score,
-        a.username as reviewer_name
+        a.username as reviewer_name,
+        COUNT(DISTINCT q.id) as question_count
     FROM exam_retake_requests r
     JOIN users u ON r.user_id = u.id
     JOIN exam_sets e ON r.exam_set_id = e.id
     LEFT JOIN student_profiles sp ON u.id = sp.user_id
     LEFT JOIN users a ON r.reviewed_by = a.id
+    LEFT JOIN questions q ON e.id = q.exam_set_id
+    GROUP BY r.id
     ORDER BY r.request_date DESC
 ");
 $stmt->execute();
@@ -150,6 +145,8 @@ include 'includes/header.php';
                             <tr>
                                 <th>Student</th>
                                 <th>Exam</th>
+                                <th>Set Code</th>
+                                <th>Questions</th>
                                 <th>Request Date</th>
                                 <th>Attempt #</th>
                                 <th>Best Score</th>
@@ -160,9 +157,15 @@ include 'includes/header.php';
                         <tbody>
                             <?php foreach ($requests as $request): ?>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($request['student_name']); ?></td>
+                                    <td>
+                                        <?php echo htmlspecialchars($request['student_name']); ?>
+                                        <br>
+                                        <small class="text-muted"><?php echo $request['student_email']; ?></small>
+                                    </td>
                                     <td><?php echo htmlspecialchars($request['exam_title']); ?></td>
-                                    <td><?php echo date('M j, Y H:i', strtotime($request['request_date'])); ?></td>
+                                    <td><code>EX<?php echo sprintf('%04d', $request['exam_set_id']); ?></code></td>
+                                    <td><?php echo $request['question_count']; ?></td>
+                                    <td><?php echo date('Y-m-d H:i', strtotime($request['request_date'])); ?></td>
                                     <td><?php echo $request['retake_count']; ?></td>
                                     <td><?php echo $request['best_score'] ? $request['best_score'] . '%' : 'N/A'; ?></td>
                                     <td>
@@ -179,14 +182,24 @@ include 'includes/header.php';
                                     </td>
                                     <td>
                                         <?php if ($request['status'] === 'pending'): ?>
-                                            <button type="button" class="btn btn-sm btn-success" 
-                                                    onclick="showActionModal('approve', <?php echo $request['id']; ?>)">
-                                                Approve
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-danger"
-                                                    onclick="showActionModal('reject', <?php echo $request['id']; ?>)">
-                                                Reject
-                                            </button>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-sm btn-success" 
+                                                        onclick="showActionModal('approve', <?php echo $request['id']; ?>, '<?php echo htmlspecialchars($request['student_name']); ?>', '<?php echo htmlspecialchars($request['exam_title']); ?>')">
+                                                    <i class="fas fa-check"></i> Approve
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger"
+                                                        onclick="showActionModal('reject', <?php echo $request['id']; ?>, '<?php echo htmlspecialchars($request['student_name']); ?>', '<?php echo htmlspecialchars($request['exam_title']); ?>')">
+                                                    <i class="fas fa-times"></i> Reject
+                                                </button>
+                                            </div>
+                                        <?php else: ?>
+                                            <?php if ($request['admin_remarks']): ?>
+                                                <button type="button" class="btn btn-sm btn-info" 
+                                                        data-bs-toggle="tooltip" 
+                                                        title="<?php echo htmlspecialchars($request['admin_remarks']); ?>">
+                                                    View Remarks
+                                                </button>
+                                            <?php endif; ?>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
@@ -212,6 +225,8 @@ include 'includes/header.php';
                     <input type="hidden" name="request_id" id="request_id">
                     <input type="hidden" name="action" id="action">
                     
+                    <div id="confirmationMessage" class="alert alert-info mb-3"></div>
+                    
                     <div class="mb-3">
                         <label for="remarks" class="form-label">Remarks</label>
                         <textarea class="form-control" id="remarks" name="remarks" rows="3" required></textarea>
@@ -227,9 +242,18 @@ include 'includes/header.php';
 </div>
 
 <script>
-function showActionModal(action, requestId) {
+function showActionModal(action, requestId, studentName, examTitle) {
     document.getElementById('request_id').value = requestId;
     document.getElementById('action').value = action;
+    
+    const message = action === 'approve'
+        ? `Are you sure you want to approve the retake request for ${examTitle} from ${studentName}?`
+        : `Are you sure you want to reject the retake request for ${examTitle} from ${studentName}?`;
+    
+    document.getElementById('confirmationMessage').textContent = message;
+    document.getElementById('remarks').placeholder = action === 'approve'
+        ? 'Add any instructions or notes for the student...'
+        : 'Please provide a reason for rejection...';
     
     const modal = new bootstrap.Modal(document.getElementById('actionModal'));
     modal.show();
