@@ -141,6 +141,19 @@ if (!isset($pageTitle)) {
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="manage_admins.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'manage_admins.php' ? 'active' : ''; ?>">
+                            <i class="nav-icon fas fa-user-shield"></i>
+                            <p>Admin Users</p>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="manage_students.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'manage_students.php' ? 'active' : ''; ?>">
+                            <i class="nav-icon fas fa-user-graduate"></i>
+                            <p>Students</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="manage_exams.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'manage_exams.php' ? 'active' : ''; ?>">
                             <i class="nav-icon fas fa-book"></i>
                             <p>Manage Exams</p>
@@ -158,12 +171,7 @@ if (!isset($pageTitle)) {
                             <p>View Results</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="manage_admins.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'manage_admins.php' ? 'active' : ''; ?>">
-                            <i class="nav-icon fas fa-user-shield"></i>
-                            <p>Admin Users</p>
-                        </a>
-                    </li>
+            
                     <!-- <li class="nav-item">
                         <a href="manage_questions.php" class="nav-link <?php echo $current_page === 'manage_questions.php' ? 'active' : ''; ?>">
                             <i class="nav-icon fas fa-question-circle"></i>
@@ -176,12 +184,7 @@ if (!isset($pageTitle)) {
                             <p>Exam Retakes</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="manage_students.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'manage_students.php' ? 'active' : ''; ?>">
-                            <i class="nav-icon fas fa-user-graduate"></i>
-                            <p>Students</p>
-                        </a>
-                    </li>
+                    
                 </ul>
             </nav>
         </div>
