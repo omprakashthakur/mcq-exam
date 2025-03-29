@@ -53,7 +53,12 @@ function display_flash_messages() {
     }
 
     .navbar {
+        background-color: #cce7e8 !important;
         box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    }
+
+    footer {
+        background-color: #cce7e8 !important;
     }
 
     .main-content {

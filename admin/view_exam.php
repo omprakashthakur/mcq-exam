@@ -8,6 +8,14 @@ require_admin();
 
 $exam_id = $_GET['id'] ?? 0;
 
+// Pagination settings
+$attempts_per_page = 4;
+$access_per_page = 4;
+$attempts_page = isset($_GET['attempts_page']) ? (int)$_GET['attempts_page'] : 1;
+$access_page = isset($_GET['access_page']) ? (int)$_GET['access_page'] : 1;
+$attempts_offset = ($attempts_page - 1) * $attempts_per_page;
+$access_offset = ($access_page - 1) * $access_per_page;
+
 // Get exam details
 $stmt = $pdo->prepare("
     SELECT e.*, u.username as created_by_name
@@ -186,6 +194,17 @@ include 'includes/header.php';
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <?php
+                            // Get total attempts count
+                            $stmt = $pdo->prepare("
+                                SELECT COUNT(*) as total
+                                FROM exam_attempts ea
+                                WHERE ea.exam_set_id = ?
+                            ");
+                            $stmt->execute([$exam_id]);
+                            $total_attempts = $stmt->fetch()['total'];
+                            $total_attempts_pages = ceil($total_attempts / $attempts_per_page);
+
+                            // Get paginated attempts
                             $stmt = $pdo->prepare("
                                 SELECT 
                                     ea.*,
@@ -196,9 +215,9 @@ include 'includes/header.php';
                                 LEFT JOIN student_profiles sp ON u.id = sp.user_id
                                 WHERE ea.exam_set_id = ?
                                 ORDER BY ea.start_time DESC
-                                LIMIT 10
+                                LIMIT ? OFFSET ?
                             ");
-                            $stmt->execute([$exam_id]);
+                            $stmt->execute([$exam_id, $attempts_per_page, $attempts_offset]);
                             $recent_attempts = $stmt->fetchAll();
                             ?>
 
@@ -253,6 +272,31 @@ include 'includes/header.php';
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
+                                
+                                <!-- Attempts Pagination -->
+                                <?php if ($total_attempts_pages > 1): ?>
+                                <div class="card-footer clearfix">
+                                    <ul class="pagination pagination-sm m-0 float-right">
+                                        <?php if ($attempts_page > 1): ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?id=<?php echo $exam_id; ?>&attempts_page=<?php echo $attempts_page - 1; ?>&access_page=<?php echo $access_page; ?>">&laquo;</a>
+                                            </li>
+                                        <?php endif; ?>
+                                        
+                                        <?php for ($i = 1; $i <= $total_attempts_pages; $i++): ?>
+                                            <li class="page-item <?php echo $i === $attempts_page ? 'active' : ''; ?>">
+                                                <a class="page-link" href="?id=<?php echo $exam_id; ?>&attempts_page=<?php echo $i; ?>&access_page=<?php echo $access_page; ?>"><?php echo $i; ?></a>
+                                            </li>
+                                        <?php endfor; ?>
+                                        
+                                        <?php if ($attempts_page < $total_attempts_pages): ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?id=<?php echo $exam_id; ?>&attempts_page=<?php echo $attempts_page + 1; ?>&access_page=<?php echo $access_page; ?>">&raquo;</a>
+                                            </li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -265,6 +309,17 @@ include 'includes/header.php';
                     </div>
                     <div class="card-body p-0">
                         <?php
+                        // Get total access grants count
+                        $stmt = $pdo->prepare("
+                            SELECT COUNT(*) as total
+                            FROM exam_access ea
+                            WHERE ea.exam_set_id = ?
+                        ");
+                        $stmt->execute([$exam_id]);
+                        $total_access = $stmt->fetch()['total'];
+                        $total_access_pages = ceil($total_access / $access_per_page);
+
+                        // Get paginated access grants
                         $stmt = $pdo->prepare("
                             SELECT ea.*, u.username, COALESCE(sp.full_name, u.username) as student_name
                             FROM exam_access ea
@@ -272,9 +327,9 @@ include 'includes/header.php';
                             LEFT JOIN student_profiles sp ON u.id = sp.user_id
                             WHERE ea.exam_set_id = ?
                             ORDER BY ea.created_at DESC
-                            LIMIT 10
+                            LIMIT ? OFFSET ?
                         ");
-                        $stmt->execute([$exam_id]);
+                        $stmt->execute([$exam_id, $access_per_page, $access_offset]);
                         $access_grants = $stmt->fetchAll();
                         ?>
 
@@ -318,8 +373,33 @@ include 'includes/header.php';
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
-                            </div>
-                        <?php endif; ?>
+                                
+                                <!-- Access Grants Pagination -->
+                                <?php if ($total_access_pages > 1): ?>
+                                <div class="card-footer clearfix">
+                                    <ul class="pagination pagination-sm m-0 float-right">
+                                        <?php if ($access_page > 1): ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?id=<?php echo $exam_id; ?>&attempts_page=<?php echo $attempts_page; ?>&access_page=<?php echo $access_page - 1; ?>">&laquo;</a>
+                                            </li>
+                                        <?php endif; ?>
+                                        
+                                        <?php for ($i = 1; $i <= $total_access_pages; $i++): ?>
+                                            <li class="page-item <?php echo $i === $access_page ? 'active' : ''; ?>">
+                                                <a class="page-link" href="?id=<?php echo $exam_id; ?>&attempts_page=<?php echo $attempts_page; ?>&access_page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                            </li>
+                                        <?php endfor; ?>
+                                        
+                                        <?php if ($access_page < $total_access_pages): ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?id=<?php echo $exam_id; ?>&attempts_page=<?php echo $attempts_page; ?>&access_page=<?php echo $access_page + 1; ?>">&raquo;</a>
+                                            </li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
 
