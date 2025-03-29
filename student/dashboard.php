@@ -12,7 +12,23 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
 
 $user_id = $_SESSION['user_id'];
 
-// Get available exams that the student can request
+// Pagination settings
+$items_per_page = 5; // For other tables
+$results_per_page = 3; // Specifically for Recent Results
+
+// Available exams pagination
+$available_page = isset($_GET['available_page']) ? (int)$_GET['available_page'] : 1;
+$available_offset = ($available_page - 1) * $items_per_page;
+
+$stmt = $pdo->prepare("
+    SELECT COUNT(*) as total FROM exam_sets e
+    WHERE e.is_active = 1
+");
+$stmt->execute();
+$total_available = $stmt->fetch()['total'];
+$total_available_pages = ceil($total_available / $items_per_page);
+
+// Modify available exams query with pagination
 $stmt = $pdo->prepare("
     SELECT 
         e.*,
@@ -29,11 +45,26 @@ $stmt = $pdo->prepare("
     WHERE e.is_active = 1 
     GROUP BY e.id
     ORDER BY e.title
+    LIMIT ? OFFSET ?
 ");
-$stmt->execute([$user_id, $user_id, $user_id]);
+$stmt->execute([$user_id, $user_id, $user_id, $items_per_page, $available_offset]);
 $available_exams = $stmt->fetchAll();
 
-// Get student's completed exams for potential retakes
+// Completed exams pagination
+$completed_page = isset($_GET['completed_page']) ? (int)$_GET['completed_page'] : 1;
+$completed_offset = ($completed_page - 1) * $items_per_page;
+
+$stmt = $pdo->prepare("
+    SELECT COUNT(DISTINCT e.id) as total
+    FROM exam_sets e
+    JOIN exam_attempts ea ON e.id = ea.exam_set_id
+    WHERE ea.user_id = ? AND ea.status = 'completed'
+");
+$stmt->execute([$user_id]);
+$total_completed = $stmt->fetch()['total'];
+$total_completed_pages = ceil($total_completed / $items_per_page);
+
+// Modify completed exams query with pagination
 $stmt = $pdo->prepare("
     SELECT DISTINCT 
         e.*,
@@ -46,22 +77,25 @@ $stmt = $pdo->prepare("
     WHERE ea.user_id = ? AND ea.status = 'completed'
     GROUP BY e.id
     ORDER BY ea.start_time DESC
+    LIMIT ? OFFSET ?
 ");
-$stmt->execute([$user_id, $user_id]);
+$stmt->execute([$user_id, $user_id, $items_per_page, $completed_offset]);
 $completed_exams = $stmt->fetchAll();
 
-// Get exam access history
+// Recent results pagination
+$results_page = isset($_GET['results_page']) ? (int)$_GET['results_page'] : 1;
+$results_offset = ($results_page - 1) * $results_per_page;
+
 $stmt = $pdo->prepare("
-    SELECT ea.*, e.title as exam_title, e.duration_minutes
-    FROM exam_access ea
-    JOIN exam_sets e ON ea.exam_set_id = e.id
+    SELECT COUNT(*) as total
+    FROM exam_attempts ea
     WHERE ea.user_id = ?
-    ORDER BY ea.created_at DESC
 ");
 $stmt->execute([$user_id]);
-$exam_access = $stmt->fetchAll();
+$total_results = $stmt->fetch()['total'];
+$total_results_pages = ceil($total_results / $results_per_page);
 
-// Get exam attempts
+// Modify exam attempts query with pagination
 $stmt = $pdo->prepare("
     SELECT ea.*, e.title as exam_title,
            COUNT(DISTINCT q.id) as total_questions,
@@ -73,64 +107,50 @@ $stmt = $pdo->prepare("
     WHERE ea.user_id = ?
     GROUP BY ea.id, e.title
     ORDER BY ea.start_time DESC
+    LIMIT ? OFFSET ?
 ");
-$stmt->execute([$user_id]);
+$stmt->execute([$user_id, $results_per_page, $results_offset]);
 $exam_attempts = $stmt->fetchAll();
 
-// Get pending requests
+// Pending requests pagination
+$pending_page = isset($_GET['pending_page']) ? (int)$_GET['pending_page'] : 1;
+$pending_offset = ($pending_page - 1) * $items_per_page;
+
+$stmt = $pdo->prepare("
+    SELECT COUNT(*) as total
+    FROM exam_requests er
+    WHERE er.user_id = ? AND er.status = 'pending'
+");
+$stmt->execute([$user_id]);
+$total_pending = $stmt->fetch()['total'];
+$total_pending_pages = ceil($total_pending / $items_per_page);
+
+// Modify pending requests query with pagination
 $stmt = $pdo->prepare("
     SELECT er.*, e.title as exam_title
     FROM exam_requests er
     JOIN exam_sets e ON er.exam_set_id = e.id
     WHERE er.user_id = ? AND er.status = 'pending'
     ORDER BY er.request_date DESC
+    LIMIT ? OFFSET ?
 ");
-$stmt->execute([$user_id]);
+$stmt->execute([$user_id, $items_per_page, $pending_offset]);
 $pending_requests = $stmt->fetchAll();
 
+$pageTitle = 'Student Dashboard';
 include '../includes/header.php';
 ?>
-<style>
-    .table-responsive {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    .sticky-top.bg-white {
-        z-index: 1020;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    }
 
-    @media (max-width: 768px) {
-        .table td, .table th {
-            min-width: 100px;
-        }
-        .table td:last-child, .table th:last-child {
-            position: sticky;
-            right: 0;
-            background: white;
-            box-shadow: -2px 0 3px rgba(0,0,0,0.1);
-        }
-        .text-break {
-            word-break: break-word;
-        }
-    }
-
-    .table-hover tbody tr:hover {
-        background-color: rgba(0,0,0,.05);
-    }
-</style>
-
-<div class="container my-4">
-    <div class="row">
+<div class="container-fluid px-0">
+    <div class="row g-4">
         <!-- Available Exams and Request Section -->
-        <div class="col-md-8">
+        <div class="col-lg-8">
             <!-- Request Exam Card -->
             <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="card-header d-flex justify-content-between align-items-center py-3">
                     <h5 class="card-title mb-0">Available Exams</h5>
-                    <div>
-                        <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#requestExamModal">
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#requestExamModal">
                             <i class="fas fa-plus-circle"></i> Request New Exam
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#retakeExamModal">
@@ -138,12 +158,14 @@ include '../includes/header.php';
                         </button>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0">
                     <?php if (empty($available_exams)): ?>
-                        <p class="text-muted">No exams available at the moment.</p>
+                        <div class="p-4 text-center">
+                            <p class="text-muted mb-0">No exams available at the moment.</p>
+                        </div>
                     <?php else: ?>
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover align-middle mb-0">
                                 <thead>
                                     <tr>
                                         <th>Exam Title</th>
@@ -186,174 +208,151 @@ include '../includes/header.php';
                                 </tbody>
                             </table>
                         </div>
+
+                        <!-- Available Exams Pagination -->
+                        <?php if ($total_available_pages > 1): ?>
+                            <div class="card-footer bg-transparent">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="pagination-info">
+                                        Showing <?php echo $available_offset + 1; ?> to <?php echo min($available_offset + $items_per_page, $total_available); ?> 
+                                        of <?php echo $total_available; ?> entries
+                                    </div>
+                                    <nav aria-label="Available exams pagination">
+                                        <ul class="pagination mb-0">
+                                            <?php if ($available_page > 1): ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?available_page=<?php echo ($available_page - 1); ?>" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                            
+                                            <?php for ($i = 1; $i <= $total_available_pages; $i++): ?>
+                                                <li class="page-item <?php echo ($i === $available_page ? 'active' : ''); ?>">
+                                                    <a class="page-link" href="?available_page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                </li>
+                                            <?php endfor; ?>
+                                            
+                                            <?php if ($available_page < $total_available_pages): ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?available_page=<?php echo ($available_page + 1); ?>" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </div>
             </div>
 
             <!-- Completed Exams Section -->
             <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="card-header py-3">
                     <h5 class="card-title mb-0">Completed Exams</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0">
                     <?php if (empty($completed_exams)): ?>
-                        <p class="text-muted">You haven't completed any exams yet.</p>
+                        <div class="p-4 text-center">
+                            <p class="text-muted mb-0">You haven't completed any exams yet.</p>
+                        </div>
                     <?php else: ?>
                         <div class="table-responsive">
-                            <table class="table table-hover table-bordered">
-                                <thead class="bg-light">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead>
                                     <tr>
                                         <th>Exam Title</th>
                                         <th>Set Code</th>
                                         <th>Best Score</th>
-                                        <th>Recent Score</th>
                                         <th>Attempts</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
-                                    foreach ($completed_exams as $exam): 
-                                        // Get the most recent score for this exam
-                                        $stmt = $pdo->prepare("
-                                            SELECT score 
-                                            FROM exam_attempts 
-                                            WHERE exam_set_id = ? AND user_id = ? AND status = 'completed'
-                                            ORDER BY end_time DESC 
-                                            LIMIT 1
-                                        ");
-                                        $stmt->execute([$exam['id'], $user_id]);
-                                        $recent_score = $stmt->fetchColumn();
-                                    ?>
+                                    <?php foreach ($completed_exams as $exam): ?>
                                         <tr>
                                             <td class="text-break"><?php echo htmlspecialchars($exam['title']); ?></td>
                                             <td class="text-nowrap"><code><?php echo sprintf('EX%04d', $exam['id']); ?></code></td>
                                             <td class="text-center"><?php echo number_format($exam['best_score'], 1); ?>%</td>
-                                            <td class="text-center">
-                                                <?php if ($recent_score !== false): ?>
-                                                    <?php echo number_format($recent_score, 1); ?>%
-                                                <?php else: ?>
-                                                    -
-                                                <?php endif; ?>
-                                            </td>
                                             <td class="text-center"><?php echo $exam['total_attempts']; ?></td>
                                             <td class="text-center">
-                                                <a href="start_exam.php?exam_id=<?php echo $exam['id']; ?>" 
-                                                   class="btn btn-primary btn-sm">
-                                                    Start Retake
-                                                </a>
+                                                <?php if (!$exam['has_pending_retake']): ?>
+                                                    <button type="button" class="btn btn-primary btn-sm"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#retakeExamModal"
+                                                            data-exam-id="<?php echo $exam['id']; ?>"
+                                                            data-exam-title="<?php echo htmlspecialchars($exam['title']); ?>">
+                                                        Request Retake
+                                                    </button>
+                                                <?php else: ?>
+                                                    <span class="badge bg-warning">Retake Pending</span>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
-                    <?php endif; ?>
-                </div>
-            </div>
 
-            <!-- Current Access -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Your Exam Access</h5>
-                </div>
-                <div class="card-body">
-                    <?php if (empty($exam_access)): ?>
-                        <p class="text-muted">You haven't been granted access to any exams yet.</p>
-                    <?php else: ?>
-                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                            <table class="table table-hover table-bordered">
-                                <thead class="sticky-top bg-white">
-                                    <tr>
-                                        <th>Exam</th>
-                                        <th>Access Code</th>
-                                        <th>Status</th>
-                                        <th>Expires</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php 
-                                    $items_per_page = 5;
-                                    $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-                                    $total_items = count($exam_access);
-                                    $total_pages = ceil($total_items / $items_per_page);
-                                    $offset = ($current_page - 1) * $items_per_page;
-                                    $current_items = array_slice($exam_access, $offset, $items_per_page);
-                                    
-                                    foreach ($current_items as $access): 
-                                    ?>
-                                        <tr>
-                                            <td class="text-break"><?php echo htmlspecialchars($access['exam_title']); ?></td>
-                                            <td class="text-nowrap"><?php echo htmlspecialchars($access['access_code']); ?></td>
-                                            <td class="text-center">
-                                                <?php if ($access['is_used']): ?>
-                                                    <span class="badge bg-secondary">Used</span>
-                                                <?php else: ?>
-                                                    <span class="badge bg-success">Available</span>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td class="text-nowrap"><?php echo date('Y-m-d H:i', strtotime($access['expiry_date'])); ?></td>
-                                            <td class="text-center">
-                                                <?php if (!$access['is_used'] && strtotime($access['expiry_date']) > time()): ?>
-                                                    <a href="../start_exam.php?access=<?php echo $access['access_url']; ?>" 
-                                                       class="btn btn-primary btn-sm">Start Exam</a>
-                                                <?php else: ?>
-                                                    -
-                                                <?php endif; ?>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <?php if ($total_pages > 1): ?>
-                        <div class="d-flex justify-content-center mt-3">
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">
-                                    <?php if ($current_page > 1): ?>
-                                        <li class="page-item">
-                                            <a class="page-link" href="?page=<?php echo ($current_page - 1); ?>" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                    <?php endif; ?>
-                                    
-                                    <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                                        <li class="page-item <?php echo ($i === $current_page ? 'active' : ''); ?>">
-                                            <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                        </li>
-                                    <?php endfor; ?>
-                                    
-                                    <?php if ($current_page < $total_pages): ?>
-                                        <li class="page-item">
-                                            <a class="page-link" href="?page=<?php echo ($current_page + 1); ?>" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    <?php endif; ?>
-                                </ul>
-                            </nav>
-                        </div>
+                        <!-- Completed Exams Pagination -->
+                        <?php if ($total_completed_pages > 1): ?>
+                            <div class="card-footer bg-transparent">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="pagination-info">
+                                        Showing <?php echo $completed_offset + 1; ?> to <?php echo min($completed_offset + $items_per_page, $total_completed); ?> 
+                                        of <?php echo $total_completed; ?> entries
+                                    </div>
+                                    <nav aria-label="Completed exams pagination">
+                                        <ul class="pagination mb-0">
+                                            <?php if ($completed_page > 1): ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?completed_page=<?php echo ($completed_page - 1); ?>" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                            
+                                            <?php for ($i = 1; $i <= $total_completed_pages; $i++): ?>
+                                                <li class="page-item <?php echo ($i === $completed_page ? 'active' : ''); ?>">
+                                                    <a class="page-link" href="?completed_page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                </li>
+                                            <?php endfor; ?>
+                                            
+                                            <?php if ($completed_page < $total_completed_pages): ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?completed_page=<?php echo ($completed_page + 1); ?>" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-lg-4">
             <!-- Pending Requests -->
             <div class="card mb-4">
-                <div class="card-header">
+                <div class="card-header py-3">
                     <h5 class="card-title mb-0">Pending Requests</h5>
                 </div>
                 <div class="card-body">
                     <?php if (empty($pending_requests)): ?>
-                        <p class="text-muted">No pending exam requests.</p>
+                        <div class="text-center">
+                            <p class="text-muted mb-0">No pending exam requests.</p>
+                        </div>
                     <?php else: ?>
-                        <div class="list-group">
+                        <div class="list-group list-group-flush">
                             <?php foreach ($pending_requests as $request): ?>
-                                <div class="list-group-item">
+                                <div class="list-group-item px-0">
                                     <h6 class="mb-1"><?php echo htmlspecialchars($request['exam_title']); ?></h6>
                                     <p class="mb-1 small text-muted">
                                         Requested: <?php echo date('Y-m-d', strtotime($request['request_date'])); ?><br>
@@ -362,70 +361,143 @@ include '../includes/header.php';
                                 </div>
                             <?php endforeach; ?>
                         </div>
+
+                        <!-- Pending Requests Pagination -->
+                        <?php if ($total_pending_pages > 1): ?>
+                            <div class="mt-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="pagination-info small">
+                                        Showing <?php echo $pending_offset + 1; ?> to <?php echo min($pending_offset + $items_per_page, $total_pending); ?> 
+                                        of <?php echo $total_pending; ?> entries
+                                    </div>
+                                    <nav aria-label="Pending requests pagination">
+                                        <ul class="pagination pagination-sm mb-0">
+                                            <?php if ($pending_page > 1): ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?pending_page=<?php echo ($pending_page - 1); ?>" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                            
+                                            <?php for ($i = 1; $i <= $total_pending_pages; $i++): ?>
+                                                <li class="page-item <?php echo ($i === $pending_page ? 'active' : ''); ?>">
+                                                    <a class="page-link" href="?pending_page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                </li>
+                                            <?php endfor; ?>
+                                            
+                                            <?php if ($pending_page < $total_pending_pages): ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?pending_page=<?php echo ($pending_page + 1); ?>" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </div>
             </div>
 
             <!-- Recent Results -->
             <div class="card">
-                <div class="card-header">
+                <div class="card-header py-3">
                     <h5 class="card-title mb-0">Recent Results</h5>
                 </div>
                 <div class="card-body">
                     <?php if (empty($exam_attempts)): ?>
-                        <p class="text-muted">You haven't taken any exams yet.</p>
+                        <div class="text-center">
+                            <p class="text-muted mb-0">You haven't taken any exams yet.</p>
+                        </div>
                     <?php else: ?>
-                        <div class="list-group" style="max-height: 400px; overflow-y: auto;">
-                            <?php 
-                            $results_per_page = 5;
-                            $results_current_page = isset($_GET['results_page']) ? (int)$_GET['results_page'] : 1;
-                            $results_total_items = count($exam_attempts);
-                            $results_total_pages = ceil($results_total_items / $results_per_page);
-                            $results_offset = ($results_current_page - 1) * $results_per_page;
-                            $current_results = array_slice($exam_attempts, $results_offset, $results_per_page);
-                            
-                            foreach ($current_results as $attempt): 
-                            ?>
-                                <div class="list-group-item">
-                                    <h6 class="mb-1"><?php echo htmlspecialchars($attempt['exam_title']); ?></h6>
-                                    <p class="mb-1">
-                                        Score: <?php echo $attempt['score'] ?? 'In Progress'; ?>%<br>
-                                        Questions: <?php echo $attempt['correct_answers']; ?>/<?php echo $attempt['total_questions']; ?>
-                                    </p>
-                                    <small class="text-muted">
-                                        <?php echo date('Y-m-d H:i', strtotime($attempt['start_time'])); ?>
-                                    </small>
+                        <div class="list-group list-group-flush">
+                            <?php foreach ($exam_attempts as $attempt): ?>
+                                <div class="list-group-item px-0">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h6 class="mb-1"><?php echo htmlspecialchars($attempt['exam_title']); ?></h6>
+                                            <p class="mb-1">
+                                                Score: <?php echo $attempt['score'] ?? 'In Progress'; ?>%<br>
+                                                Questions: <?php echo $attempt['correct_answers']; ?>/<?php echo $attempt['total_questions']; ?>
+                                            </p>
+                                            <small class="text-muted">
+                                                <?php echo date('M j, Y H:i', strtotime($attempt['start_time'])); ?>
+                                            </small>
+                                        </div>
+                                        <?php if ($attempt['status'] === 'completed'): ?>
+                                            <a href="view_result.php?attempt_id=<?php echo $attempt['id']; ?>" 
+                                               class="btn btn-sm btn-primary align-self-center">
+                                                <i class="fas fa-eye"></i> View
+                                            </a>
+                                        <?php else: ?>
+                                            <a href="continue_exam.php?attempt_id=<?php echo $attempt['id']; ?>" 
+                                               class="btn btn-sm btn-warning align-self-center" 
+                                               style="font-size: 0.51rem; padding: 0.60rem 0.5rem;">
+                                                <i class="fas fa-play"></i> Continue
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             <?php endforeach; ?>
                         </div>
-                        <?php if ($results_total_pages > 1): ?>
-                        <div class="d-flex justify-content-center mt-3">
-                            <nav aria-label="Results page navigation">
-                                <ul class="pagination pagination-sm">
-                                    <?php if ($results_current_page > 1): ?>
-                                        <li class="page-item">
-                                            <a class="page-link" href="?results_page=<?php echo ($results_current_page - 1); ?>" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                    <?php endif; ?>
-                                    
-                                    <?php for ($i = 1; $i <= $results_total_pages; $i++): ?>
-                                        <li class="page-item <?php echo ($i === $results_current_page ? 'active' : ''); ?>">
-                                            <a class="page-link" href="?results_page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                        </li>
-                                    <?php endfor; ?>
-                                    
-                                    <?php if ($results_current_page < $results_total_pages): ?>
-                                        <li class="page-item">
-                                            <a class="page-link" href="?results_page=<?php echo ($results_current_page + 1); ?>" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    <?php endif; ?>
-                                </ul>
-                            </nav>
-                        </div>
+
+                        <!-- Recent Results Pagination -->
+                        <?php if ($total_results_pages > 1): ?>
+                            <div class="mt-3">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    <div class="pagination-info small">
+                                        Showing <?php echo $results_offset + 1; ?> to <?php echo min($results_offset + $results_per_page, $total_results); ?> 
+                                        of <?php echo $total_results; ?> entries
+                                    </div>
+                                    <nav aria-label="Recent results pagination" class="d-flex justify-content-center flex-grow-1">
+                                        <ul class="pagination pagination-sm mb-0">
+                                            <?php if ($results_page > 1): ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?results_page=<?php echo ($results_page - 1); ?>" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                            
+                                            <?php
+                                            $start_page = max(1, $results_page - 2);
+                                            $end_page = min($total_results_pages, $results_page + 2);
+                                            
+                                            if ($start_page > 1) {
+                                                echo '<li class="page-item"><a class="page-link" href="?results_page=1">1</a></li>';
+                                                if ($start_page > 2) {
+                                                    echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                                }
+                                            }
+                                            
+                                            for ($i = $start_page; $i <= $end_page; $i++): ?>
+                                                <li class="page-item <?php echo ($i === $results_page ? 'active' : ''); ?>">
+                                                    <a class="page-link" href="?results_page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                </li>
+                                            <?php endfor;
+                                            
+                                            if ($end_page < $total_results_pages) {
+                                                if ($end_page < $total_results_pages - 1) {
+                                                    echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                                }
+                                                echo '<li class="page-item"><a class="page-link" href="?results_page=' . $total_results_pages . '">' . $total_results_pages . '</a></li>';
+                                            }
+                                            ?>
+                                            
+                                            <?php if ($results_page < $total_results_pages): ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?results_page=<?php echo ($results_page + 1); ?>" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
@@ -434,89 +506,9 @@ include '../includes/header.php';
     </div>
 </div>
 
-<!-- Request Exam Modal -->
-<div class="modal fade" id="requestExamModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="request_exam.php" method="POST">
-                <div class="modal-header">
-                    <h5 class="modal-title">Request Exam Access</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="exam_id" class="form-label">Select Exam</label>
-                        <select class="form-select" id="exam_id" name="exam_id" required>
-                            <option value="">Choose exam...</option>
-                            <?php foreach ($available_exams as $exam): ?>
-                                <?php if (!$exam['has_pending_request'] && !$exam['has_access']): ?>
-                                    <option value="<?php echo $exam['id']; ?>">
-                                        <?php echo htmlspecialchars($exam['title']); ?>
-                                    </option>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="preferred_date" class="form-label">Preferred Exam Date</label>
-                        <input type="date" class="form-control" id="preferred_date" name="preferred_date" 
-                               min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" 
-                               max="<?php echo date('Y-m-d', strtotime('+30 days')); ?>" 
-                               required>
-                        <div class="form-text">Select a date between tomorrow and 30 days from now.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="request_reason" class="form-label">Request Reason</label>
-                        <textarea class="form-control" id="request_reason" name="request_reason" 
-                                  rows="3" required placeholder="Please explain why you want to take this exam..."></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Submit Request</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Retake Exam Modal -->
-<div class="modal fade" id="retakeExamModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="request_retake.php" method="POST">
-                <div class="modal-header">
-                    <h5 class="modal-title">Request Exam Retake</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="exam_id" class="form-label">Select Exam</label>
-                        <select class="form-select" id="exam_id" name="exam_id" required>
-                            <option value="">Choose exam...</option>
-                            <?php foreach ($completed_exams as $exam): ?>
-                                <?php if (!$exam['has_pending_retake']): ?>
-                                    <option value="<?php echo $exam['id']; ?>">
-                                        <?php echo htmlspecialchars($exam['title']); ?>
-                                    </option>
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="retake_reason" class="form-label">Retake Reason</label>
-                        <textarea class="form-control" id="retake_reason" name="retake_reason" 
-                                  rows="3" required placeholder="Please explain why you want to retake this exam..."></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Submit Request</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+<!-- Modals -->
+<?php include '../includes/modals/request_exam_modal.php'; ?>
+<?php include '../includes/modals/retake_exam_modal.php'; ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -533,17 +525,41 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
 
-function prepareExamRequest(examId, examTitle, requestType) {
-    const modalId = requestType === 'retake' ? '#retakeExamModal' : '#requestExamModal';
-    document.querySelector(`${modalId} #exam_id`).value = examId;
-    document.querySelector(`${modalId} .exam-title`).textContent = examTitle;
-    document.querySelector(`${modalId} .exam-code`).textContent = `EX${examId.padStart(4, '0')}`;
-    
-    const modal = new bootstrap.Modal(document.querySelector(modalId));
-    modal.show();
-}
+    // Function to get URL parameters
+    function getUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            available_page: parseInt(params.get('available_page')) || 1,
+            completed_page: parseInt(params.get('completed_page')) || 1,
+            pending_page: parseInt(params.get('pending_page')) || 1,
+            results_page: parseInt(params.get('results_page')) || 1
+        };
+    }
+
+    // Function to update pagination links
+    function updatePaginationLinks() {
+        const currentParams = getUrlParams();
+        
+        document.querySelectorAll('.pagination .page-link').forEach(link => {
+            const href = new URL(link.href);
+            const newParams = new URLSearchParams(href.search);
+            
+            // Preserve other pagination parameters when clicking a specific pagination link
+            for (const [key, value] of Object.entries(currentParams)) {
+                if (!newParams.has(key)) {
+                    newParams.set(key, value);
+                }
+            }
+            
+            href.search = newParams.toString();
+            link.href = href.toString();
+        });
+    }
+
+    // Update pagination links on page load
+    updatePaginationLinks();
+});
 </script>
 
 <?php include '../includes/footer.php'; ?>

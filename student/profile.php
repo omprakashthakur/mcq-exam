@@ -68,55 +68,71 @@ $stmt = $pdo->prepare("
 $stmt->execute([$_SESSION['user_id']]);
 $stats = $stmt->fetch();
 
-// Get recent activity
+// Pagination settings for recent activity
+$items_per_page = 5;
+$current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+// Get total count of activities
+$stmt = $pdo->prepare("
+    SELECT COUNT(*) as total
+    FROM exam_attempts ea
+    JOIN exam_sets es ON ea.exam_set_id = es.id
+    WHERE ea.user_id = ?
+");
+$stmt->execute([$_SESSION['user_id']]);
+$total_items = $stmt->fetch()['total'];
+$total_pages = ceil($total_items / $items_per_page);
+
+// Get paginated recent activity
+$offset = ($current_page - 1) * $items_per_page;
 $stmt = $pdo->prepare("
     SELECT ea.*, es.title, es.pass_percentage
     FROM exam_attempts ea
     JOIN exam_sets es ON ea.exam_set_id = es.id
     WHERE ea.user_id = ?
     ORDER BY ea.start_time DESC
-    LIMIT 5
+    LIMIT ? OFFSET ?
 ");
-$stmt->execute([$_SESSION['user_id']]);
+$stmt->execute([$_SESSION['user_id'], $items_per_page, $offset]);
 $recent_activity = $stmt->fetchAll();
 
-$page_title = 'My Profile';
+$pageTitle = 'My Profile';
 include '../includes/header.php';
 ?>
 
-<div class="container py-4">
-    <div class="row">
+<div class="container-fluid px-0">
+    <div class="row g-4">
         <div class="col-md-4">
             <div class="card mb-4">
-                <div class="card-body text-center">
-                    <div class="mb-3">
-                        <i class='bx bxs-user-circle' style="font-size: 6rem; color: #0d6efd;"></i>
+                <div class="card-body text-center py-4">
+                    <div class="mb-4">
+                        <i class="fas fa-user-circle" style="font-size: 6rem; color: #0d6efd;"></i>
                     </div>
-                    <h4><?php echo html_escape($user['username']); ?></h4>
-                    <p class="text-muted"><?php echo html_escape($user['email']); ?></p>
+                    <h4 class="mb-1"><?php echo htmlspecialchars($user['username']); ?></h4>
+                    <p class="text-muted mb-0"><?php echo htmlspecialchars($user['email']); ?></p>
                 </div>
             </div>
 
-            <div class="card mb-4">
-                <div class="card-header">
+            <div class="card">
+                <div class="card-header py-3">
                     <h5 class="card-title mb-0">Statistics</h5>
                 </div>
                 <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
-                        <div>Total Exams</div>
-                        <div><strong><?php echo $stats['total_exams']; ?></strong></div>
+                    <div class="d-flex justify-content-between align-items-center py-2">
+                        <div class="text-muted">Total Exams</div>
+                        <div class="h5 mb-0"><?php echo $stats['total_exams']; ?></div>
                     </div>
-                    <div class="d-flex justify-content-between mb-3">
-                        <div>Average Score</div>
-                        <div><strong><?php echo ($stats['average_score'] !== null) ? number_format($stats['average_score'], 1) : '0.0'; ?>%</strong></div>
+                    <div class="d-flex justify-content-between align-items-center py-2">
+                        <div class="text-muted">Average Score</div>
+                        <div class="h5 mb-0"><?php echo ($stats['average_score'] !== null) ? number_format($stats['average_score'], 1) : '0.0'; ?>%</div>
                     </div>
-                    <div class="d-flex justify-content-between mb-3">
-                        <div>Highest Score</div>
-                        <div><strong><?php echo ($stats['highest_score'] !== null) ? number_format($stats['highest_score'], 1) : '0.0'; ?>%</strong></div>
+                    <div class="d-flex justify-content-between align-items-center py-2">
+                        <div class="text-muted">Highest Score</div>
+                        <div class="h5 mb-0"><?php echo ($stats['highest_score'] !== null) ? number_format($stats['highest_score'], 1) : '0.0'; ?>%</div>
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <div>Exams Passed</div>
-                        <div><strong><?php echo $stats['exams_passed']; ?></strong></div>
+                    <div class="d-flex justify-content-between align-items-center py-2">
+                        <div class="text-muted">Exams Passed</div>
+                        <div class="h5 mb-0"><?php echo $stats['exams_passed']; ?></div>
                     </div>
                 </div>
             </div>
@@ -124,64 +140,74 @@ include '../includes/header.php';
 
         <div class="col-md-8">
             <div class="card mb-4">
-                <div class="card-header">
+                <div class="card-header py-3">
                     <h5 class="card-title mb-0">Update Profile</h5>
                 </div>
                 <div class="card-body">
                     <form method="POST" class="needs-validation" novalidate>
                         <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                         
-                        <div class="mb-3">
-                            <label class="form-label">Username</label>
-                            <input type="text" class="form-control" value="<?php echo html_escape($user['username']); ?>" disabled>
-                            <div class="form-text">Username cannot be changed</div>
-                        </div>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" value="<?php echo htmlspecialchars($user['username']); ?>" disabled>
+                                <div class="form-text">Username cannot be changed</div>
+                            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" value="<?php echo html_escape($user['email']); ?>" required>
-                        </div>
+                            <div class="col-12">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
+                            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Current Password</label>
-                            <input type="password" class="form-control" name="current_password" required>
-                        </div>
+                            <div class="col-12">
+                                <label class="form-label">Current Password</label>
+                                <input type="password" class="form-control" name="current_password" required>
+                            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">New Password (leave blank to keep current)</label>
-                            <input type="password" class="form-control" name="new_password" minlength="8">
-                            <div class="form-text">Minimum 8 characters, 1 uppercase, 1 lowercase, and 1 number</div>
-                        </div>
+                            <div class="col-12">
+                                <label class="form-label">New Password (leave blank to keep current)</label>
+                                <input type="password" class="form-control" name="new_password" minlength="8">
+                                <div class="form-text">Minimum 8 characters, 1 uppercase, 1 lowercase, and 1 number</div>
+                            </div>
 
-                        <button type="submit" name="update_profile" class="btn btn-primary">Update Profile</button>
+                            <div class="col-12">
+                                <button type="submit" name="update_profile" class="btn btn-primary">Update Profile</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
+            <div class="card card-table">
+                <div class="card-header py-3">
                     <h5 class="card-title mb-0">Recent Activity</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0">
                     <?php if (empty($recent_activity)): ?>
-                        <p class="text-muted">No exam attempts yet</p>
+                        <div class="p-4 text-center">
+                            <p class="text-muted mb-0">No exam attempts yet</p>
+                        </div>
                     <?php else: ?>
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table table-hover align-middle mb-0">
                                 <thead>
-                                    <tr>
-                                        <th>Exam</th>
-                                        <th>Date</th>
-                                        <th>Score</th>
-                                        <th>Status</th>
+                                    <tr class="text-center">
+                                        <th style="width: 40%">Exam</th>
+                                        <th style="width: 20%">Date</th>
+                                        <th style="width: 20%">Score</th>
+                                        <th style="width: 20%">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($recent_activity as $activity): ?>
                                         <tr>
-                                            <td><?php echo html_escape($activity['title']); ?></td>
-                                            <td><?php echo date('M j, Y', strtotime($activity['start_time'])); ?></td>
                                             <td>
+                                                <div class="text-wrap"><?php echo htmlspecialchars($activity['title']); ?></div>
+                                            </td>
+                                            <td class="text-center">
+                                                <?php echo date('M j, Y', strtotime($activity['start_time'])); ?>
+                                            </td>
+                                            <td class="text-center">
                                                 <?php if ($activity['status'] === 'completed'): ?>
                                                     <?php 
                                                     $score = number_format($activity['score'], 1);
@@ -192,13 +218,17 @@ include '../includes/header.php';
                                                     <span class="badge bg-warning">In Progress</span>
                                                 <?php endif; ?>
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 <?php if ($activity['status'] === 'completed'): ?>
                                                     <a href="view_result.php?attempt_id=<?php echo $activity['id']; ?>" 
-                                                       class="btn btn-sm btn-primary">View Result</a>
+                                                       class="btn btn-sm btn-primary">
+                                                        <i class="fas fa-eye"></i> View
+                                                    </a>
                                                 <?php else: ?>
                                                     <a href="continue_exam.php?attempt_id=<?php echo $activity['id']; ?>" 
-                                                       class="btn btn-sm btn-warning">Continue</a>
+                                                       class="btn btn-sm btn-warning">
+                                                        <i class="fas fa-play"></i> Continue
+                                                    </a>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>
@@ -206,6 +236,62 @@ include '../includes/header.php';
                                 </tbody>
                             </table>
                         </div>
+
+                        <!-- Pagination -->
+                        <?php if ($total_pages > 1): ?>
+                            <div class="card-footer bg-transparent">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="pagination-info">
+                                        Showing <?php echo $offset + 1; ?> to <?php echo min($offset + $items_per_page, $total_items); ?> 
+                                        of <?php echo $total_items; ?> entries
+                                    </div>
+                                    <nav aria-label="Activity pagination">
+                                        <ul class="pagination mb-0">
+                                            <?php if ($current_page > 1): ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<?php echo ($current_page - 1); ?>" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                            
+                                            <?php
+                                            $start_page = max(1, $current_page - 2);
+                                            $end_page = min($total_pages, $current_page + 2);
+                                            
+                                            if ($start_page > 1) {
+                                                echo '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>';
+                                                if ($start_page > 2) {
+                                                    echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                                }
+                                            }
+                                            
+                                            for ($i = $start_page; $i <= $end_page; $i++): ?>
+                                                <li class="page-item <?php echo ($i === $current_page ? 'active' : ''); ?>">
+                                                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                </li>
+                                            <?php endfor;
+                                            
+                                            if ($end_page < $total_pages) {
+                                                if ($end_page < $total_pages - 1) {
+                                                    echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                                }
+                                                echo '<li class="page-item"><a class="page-link" href="?page=' . $total_pages . '">' . $total_pages . '</a></li>';
+                                            }
+                                            ?>
+                                            
+                                            <?php if ($current_page < $total_pages): ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<?php echo ($current_page + 1); ?>" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </div>
             </div>
