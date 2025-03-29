@@ -153,6 +153,14 @@ if (!isset($pageTitle)) {
                             <p>Students</p>
                         </a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a href="manage_certified_students.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'manage_certified_students.php' ? 'active' : ''; ?>">
+                            <i class="nav-icon fas fa-certificate"></i>
+                            <p>Certified Students</p>
+                        </a>
+                    </li>
+                    
                     <li class="nav-item">
                         <a href="manage_exams.php" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'manage_exams.php' ? 'active' : ''; ?>">
                             <i class="nav-icon fas fa-book"></i>
