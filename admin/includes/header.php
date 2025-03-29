@@ -164,12 +164,12 @@ if (!isset($pageTitle)) {
                             <p>Admin Users</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="manage_questions.php" class="nav-link <?php echo $current_page === 'manage_questions.php' ? 'active' : ''; ?>">
                             <i class="nav-icon fas fa-question-circle"></i>
                             <p>Questions</p>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a href="manage_retakes.php" class="nav-link <?php echo $current_page === 'manage_retakes.php' ? 'active' : ''; ?>">
                             <i class="nav-icon fas fa-redo"></i>

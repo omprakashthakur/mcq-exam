@@ -38,7 +38,36 @@ $extraStyles = '
     }
 </style>';
 
-// Get recent exam requests
+// Pagination settings
+$items_per_page = 4;
+$requests_page = isset($_GET['requests_page']) ? (int)$_GET['requests_page'] : 1;
+$results_page = isset($_GET['results_page']) ? (int)$_GET['results_page'] : 1;
+$students_page = isset($_GET['students_page']) ? (int)$_GET['students_page'] : 1;
+$recent_students_page = isset($_GET['recent_page']) ? (int)$_GET['recent_page'] : 1;
+
+$requests_offset = ($requests_page - 1) * $items_per_page;
+$results_offset = ($results_page - 1) * $items_per_page;
+$students_offset = ($students_page - 1) * $items_per_page;
+$recent_offset = ($recent_students_page - 1) * $items_per_page;
+
+// Get total counts for pagination
+$stmt = $pdo->query("SELECT COUNT(*) FROM exam_requests WHERE status = 'pending'");
+$total_requests = $stmt->fetchColumn();
+$total_requests_pages = ceil($total_requests / $items_per_page);
+
+$stmt = $pdo->query("SELECT COUNT(*) FROM exam_attempts WHERE status = 'completed'");
+$total_results = $stmt->fetchColumn();
+$total_results_pages = ceil($total_results / $items_per_page);
+
+$stmt = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'user'");
+$total_students = $stmt->fetchColumn();
+$total_students_pages = ceil($total_students / $items_per_page);
+
+$stmt = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'user'");
+$total_recent = $stmt->fetchColumn();
+$total_recent_pages = ceil($total_recent / $items_per_page);
+
+// Get recent exam requests with pagination
 $stmt = $pdo->prepare("
     SELECT er.*, e.title as exam_title, u.email, sp.full_name, sp.phone
     FROM exam_requests er
@@ -47,9 +76,9 @@ $stmt = $pdo->prepare("
     LEFT JOIN student_profiles sp ON u.id = sp.user_id
     WHERE er.status = 'pending'
     ORDER BY er.request_date DESC
-    LIMIT 5
+    LIMIT ? OFFSET ?
 ");
-$stmt->execute();
+$stmt->execute([$items_per_page, $requests_offset]);
 $recent_requests = $stmt->fetchAll();
 
 // Get student statistics
@@ -74,7 +103,7 @@ $stmt = $pdo->query("
 ");
 $exam_stats = $stmt->fetch();
 
-// Get recent exam results
+// Get recent exam results with pagination
 $stmt = $pdo->prepare("
     SELECT ea.*, e.title as exam_title, u.email, sp.full_name
     FROM exam_attempts ea
@@ -83,12 +112,12 @@ $stmt = $pdo->prepare("
     LEFT JOIN student_profiles sp ON u.id = sp.user_id
     WHERE ea.status = 'completed'
     ORDER BY ea.end_time DESC
-    LIMIT 5
+    LIMIT ? OFFSET ?
 ");
-$stmt->execute();
+$stmt->execute([$items_per_page, $results_offset]);
 $recent_results = $stmt->fetchAll();
 
-// Get students list with their exam assignments
+// Get students list with pagination
 $stmt = $pdo->prepare("
     SELECT 
         u.id,
@@ -109,15 +138,16 @@ $stmt = $pdo->prepare("
     WHERE u.role = 'user'
     GROUP BY u.id, u.email, u.username, sp.full_name, sp.phone, u.is_active
     ORDER BY sp.full_name
+    LIMIT ? OFFSET ?
 ");
-$stmt->execute();
+$stmt->execute([$items_per_page, $students_offset]);
 $students = $stmt->fetchAll();
 
 // Get all exams for assign exam modal
 $stmt = $pdo->query("SELECT id, title FROM exam_sets ORDER BY title");
 $exams = $stmt->fetchAll();
 
-// Get recent students
+// Get recent students with pagination
 $stmt = $pdo->prepare("
     SELECT 
         u.id,
@@ -133,9 +163,9 @@ $stmt = $pdo->prepare("
     WHERE u.role = 'user'
     GROUP BY u.id, u.username, u.email, u.is_active, u.created_at, sp.full_name
     ORDER BY u.created_at DESC
-    LIMIT 5
+    LIMIT ? OFFSET ?
 ");
-$stmt->execute();
+$stmt->execute([$items_per_page, $recent_offset]);
 $recent_students = $stmt->fetchAll();
 
 include 'includes/header.php';
@@ -244,6 +274,29 @@ include 'includes/header.php';
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
+                        <?php if ($total_requests_pages > 1): ?>
+                            <div class="card-footer clearfix">
+                                <ul class="pagination pagination-sm m-0 float-right">
+                                    <?php if ($requests_page > 1): ?>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?requests_page=<?php echo $requests_page - 1; ?>&results_page=<?php echo $results_page; ?>&students_page=<?php echo $students_page; ?>&recent_page=<?php echo $recent_students_page; ?>">&laquo;</a>
+                                        </li>
+                                    <?php endif; ?>
+                                    
+                                    <?php for ($i = 1; $i <= $total_requests_pages; $i++): ?>
+                                        <li class="page-item <?php echo $i === $requests_page ? 'active' : ''; ?>">
+                                            <a class="page-link" href="?requests_page=<?php echo $i; ?>&results_page=<?php echo $results_page; ?>&students_page=<?php echo $students_page; ?>&recent_page=<?php echo $recent_students_page; ?>"><?php echo $i; ?></a>
+                                        </li>
+                                    <?php endfor; ?>
+                                    
+                                    <?php if ($requests_page < $total_requests_pages): ?>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?requests_page=<?php echo $requests_page + 1; ?>&results_page=<?php echo $results_page; ?>&students_page=<?php echo $students_page; ?>&recent_page=<?php echo $recent_students_page; ?>">&raquo;</a>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
             </div>
@@ -281,15 +334,36 @@ include 'includes/header.php';
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
+                        <?php if ($total_results_pages > 1): ?>
+                            <div class="card-footer clearfix">
+                                <ul class="pagination pagination-sm m-0 float-right">
+                                    <?php if ($results_page > 1): ?>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?requests_page=<?php echo $requests_page; ?>&results_page=<?php echo $results_page - 1; ?>&students_page=<?php echo $students_page; ?>&recent_page=<?php echo $recent_students_page; ?>">&laquo;</a>
+                                        </li>
+                                    <?php endif; ?>
+                                    
+                                    <?php for ($i = 1; $i <= $total_results_pages; $i++): ?>
+                                        <li class="page-item <?php echo $i === $results_page ? 'active' : ''; ?>">
+                                            <a class="page-link" href="?requests_page=<?php echo $requests_page; ?>&results_page=<?php echo $i; ?>&students_page=<?php echo $students_page; ?>&recent_page=<?php echo $recent_students_page; ?>"><?php echo $i; ?></a>
+                                        </li>
+                                    <?php endfor; ?>
+                                    
+                                    <?php if ($results_page < $total_results_pages): ?>
+                                        <li class="page-item">
+                                            <a class="page-link" href="?requests_page=<?php echo $requests_page; ?>&results_page=<?php echo $results_page + 1; ?>&students_page=<?php echo $students_page; ?>&recent_page=<?php echo $recent_students_page; ?>">&raquo;</a>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Students List -->
-<div class="row justify-content-center">
+    <!-- Students Overview -->
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -383,6 +457,29 @@ include 'includes/header.php';
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <?php if ($total_students_pages > 1): ?>
+                        <div class="card-footer clearfix">
+                            <ul class="pagination pagination-sm m-0 float-right">
+                                <?php if ($students_page > 1): ?>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?requests_page=<?php echo $requests_page; ?>&results_page=<?php echo $results_page; ?>&students_page=<?php echo $students_page - 1; ?>&recent_page=<?php echo $recent_students_page; ?>">&laquo;</a>
+                                    </li>
+                                <?php endif; ?>
+                                
+                                <?php for ($i = 1; $i <= $total_students_pages; $i++): ?>
+                                    <li class="page-item <?php echo $i === $students_page ? 'active' : ''; ?>">
+                                        <a class="page-link" href="?requests_page=<?php echo $requests_page; ?>&results_page=<?php echo $results_page; ?>&students_page=<?php echo $i; ?>&recent_page=<?php echo $recent_students_page; ?>"><?php echo $i; ?></a>
+                                    </li>
+                                <?php endfor; ?>
+                                
+                                <?php if ($students_page < $total_students_pages): ?>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?requests_page=<?php echo $requests_page; ?>&results_page=<?php echo $results_page; ?>&students_page=<?php echo $students_page + 1; ?>&recent_page=<?php echo $recent_students_page; ?>">&raquo;</a>
+                                    </li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -471,6 +568,29 @@ include 'includes/header.php';
                     <?php endif; ?>
                 </tbody>
             </table>
+            <?php if ($total_recent_pages > 1): ?>
+                <div class="card-footer clearfix">
+                    <ul class="pagination pagination-sm m-0 float-right">
+                        <?php if ($recent_students_page > 1): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?requests_page=<?php echo $requests_page; ?>&results_page=<?php echo $results_page; ?>&students_page=<?php echo $students_page; ?>&recent_page=<?php echo $recent_students_page - 1; ?>">&laquo;</a>
+                            </li>
+                        <?php endif; ?>
+                        
+                        <?php for ($i = 1; $i <= $total_recent_pages; $i++): ?>
+                            <li class="page-item <?php echo $i === $recent_students_page ? 'active' : ''; ?>">
+                                <a class="page-link" href="?requests_page=<?php echo $requests_page; ?>&results_page=<?php echo $results_page; ?>&students_page=<?php echo $students_page; ?>&recent_page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                            </li>
+                        <?php endfor; ?>
+                        
+                        <?php if ($recent_students_page < $total_recent_pages): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?requests_page=<?php echo $requests_page; ?>&results_page=<?php echo $results_page; ?>&students_page=<?php echo $students_page; ?>&recent_page=<?php echo $recent_students_page + 1; ?>">&raquo;</a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     <div class="card-footer text-center">
@@ -695,3 +815,4 @@ function toggleStudentStatus(studentId, newStatus) {
         document.getElementById('toggleStudentForm').submit();
     }
 }
+</script>
